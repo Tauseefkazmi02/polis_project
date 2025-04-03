@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - POLICE</title>
+    <link rel="stylesheet" href="styles.css">
+</head> 
+<body>
+    <div class="image-container">
+        <img src="https://storage.googleapis.com/swayam2_central/b2c_login_pages/images/SignIn_Image.jpg" alt="Description of Image" style="max-width: 100%; height: auto;">
+    </div>
+    
+    <header>
+        <h1>Login to POLICE</h1>
+    </header>
+    
+    <main>
+        <div class="form-container">
+            <form id="login-form" onsubmit="return handleLogin(event)">
+                <input type="text" id="username" placeholder="Username or Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                
+                <div>
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember Me</label>
+                </div>
+
+                <button type="submit">Login</button>
+                <p>Don't have an account? <a href="registration.html">Register here</a></p>
+                <p><a href="forgot-password.html">Forgot Password?</a></p>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 POLICE Platform</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
