@@ -1,26 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to POLICE</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to POLICE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 20px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.1rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav a::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 2px;
+      background: #ffdd57;
+      transition: width 0.3s;
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+    }
+
+    nav a:hover {
+      color: #ffdd57;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      border-radius: 15px;
+      text-align: center;
+      padding: 60px 30px;
+      margin: 60px auto;
+      max-width: 800px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .hero h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .hero button {
+      background: linear-gradient(to right, #28a745, #218838);
+      color: white;
+      border: none;
+      padding: 15px 35px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .hero button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #218838, #1e7e34);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      nav a {
+        margin: 0 8px;
+        font-size: 1rem;
+      }
+
+      .hero h2 {
+        font-size: 1.5rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero button {
+        padding: 12px 25px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to POLICE</h1>
-        <nav>
-            <a href="home.html">Home</a>
-            <a href="login.html">User Login</a>          
-            <a href="registration.html">User Registration</a>
-            <a href="contact_us.html">contact_us</a>
-        </nav>
-    </header>
-    <main>
-        <p>Your platform for public online legal investigations.</p>
-    </main>
-    <footer>
-        <p>&copy; 2023 POLICE Platform</p>
-    </footer>
+  <header>
+    <h1>Welcome to POLICE</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="login.html">User Login</a>
+      <a href="registration.html">Register</a>
+      <a href="contact_us.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Your Trusted Platform for Legal Investigations</h2>
+      <p>Explore our secure, efficient services and be a part of a transparent justice system. We ensure your data is safe and your voice is heard.</p>
+      <button onclick="window.location.href='registration.html'">Get Started</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
+  </footer>
 </body>
 </html>
