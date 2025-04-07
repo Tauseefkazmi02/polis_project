@@ -1,30 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - POLICE</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - POLICE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      margin-bottom: 10px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #1e90ff;
+      transform: scale(1.05);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #777;
+      background-color: #f8f8f8;
+      margin-top: 40px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Dashboard</h1>
-        <nav>
-            <a href="home.html">Home</a>
-            <a href="login.html">Logout</a>
-            <a href="track_case.html">Track Your Case</a>
-            <a href="services.html">Services</a>
-            <a href="case_registration.html">Case Registration</a>
-            <a href="contact_us.html">Contact Us</a>
 
-        </nav>
-    </header>
-    <main>
-        <h2>Manage your cases and investigations here.</h2>
-        <p>Dashboard content goes here...</p>
-    </main>
-    <footer>
-        <p>&copy; 2023 POLICE Platform</p>
-    </footer>
+  <header>
+    <h1>Dashboard</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="track_case.html">Track Case</a>
+      <a href="services.html">Services</a>
+      <a href="case_registration.html">Register Case</a>
+      <a href="contact_us.html">Contact Us</a>
+      <a href="login.html" style="background-color: crimson;">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Welcome to your Police Dashboard</h2>
+    <p>Manage your cases, track progress, and access services easily from here.</p>
+
+    <!-- Example interactive section -->
+    <section style="margin-top: 30px;">
+      <button style="padding: 12px 20px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;"
+        onclick="alert('Redirecting to case management...')">Go to Case Manager</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
