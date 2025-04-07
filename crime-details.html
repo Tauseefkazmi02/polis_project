@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crime Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      padding: 40px;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      margin-right: 40px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .sidebar li.active {
+      background: #0056b3;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+
+    .form-area {
+      flex: 1;
+    }
+
+    h2, h3 {
+      border-left: 5px solid #007bff;
+      padding-left: 10px;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    form {
+      background-color: #fff;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .inline div {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    .submit-btn {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .submit-btn button {
+      padding: 12px 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .submit-btn button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        padding: 20px;
+      }
+      .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sidebar">
+    <ul>
+      <li><a href="personal-details.html">Personal Details</a></li>
+      <li class="active"><a href="#">Crime Details</a></li>
+      <li><a href="document-upload.html">Document Upload</a></li>
+    </ul>
+  </div>
+
+  <div class="form-area">
+    <h2>Crime Details</h2>
+    <p>Please fill in the details of the crime below:</p>
+
+    <form>
+      <label>District:</label>
+      <input type="text" name="district" required>
+
+      <label>Date & Time of Occurrence of Offence:</label>
+      <input type="datetime-local" name="offence_datetime" required>
+
+      <label>Place of Occurrence:</label>
+      <textarea name="place_of_occurrence" rows="2" required></textarea>
+
+      <h3>Details of Accused (if known)</h3>
+      <textarea name="accused_details" rows="3" placeholder="Name(s), Alias, Address(es)"></textarea>
+
+      <h3>Brief Description of the Offence:</h3>
+      <textarea name="offence_description" rows="4" required></textarea>
+
+      <label>Sections of Law Involved:</label>
+      <input type="text" name="law_sections" placeholder="e.g., IPC 420, 506, etc.">
+
+      <h3>Witnesses (if any):</h3>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Contact</th>
+        </tr>
+        <tr>
+          <td><input type="text" name="witness_name1"></td>
+          <td><input type="text" name="witness_address1"></td>
+          <td><input type="text" name="witness_contact1"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="witness_name2"></td>
+          <td><input type="text" name="witness_address2"></td>
+          <td><input type="text" name="witness_contact2"></td>
+        </tr>
+      </table>
+
+      <h3>Property Involved (if any):</h3>
+      <textarea name="property_details" rows="3"></textarea>
+
+      <label>Estimated Value (₹):</label>
+      <input type="number" name="estimated_value" min="0" step="any">
+
+      <h3>Police Action Taken:</h3>
+      <textarea name="police_action" rows="3" placeholder="Investigation started, Officer assigned, etc."></textarea>
+
+      <div class="inline">
+        <div>
+          <label>Officer-in-Charge Name & Designation:</label>
+          <input type="text" name="officer_name">
+        </div>
+      </div>
+
+      <div class="submit-btn">
+        <button type="submit">Submit FIR</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
