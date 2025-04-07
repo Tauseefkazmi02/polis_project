@@ -1,40 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - POLICE</title>
-    <link rel="stylesheet" href="styles.css">
-</head> 
-<body>
-    <div class="image-container">
-        <img src="https://storage.googleapis.com/swayam2_central/b2c_login_pages/images/SignIn_Image.jpg" alt="Description of Image" style="max-width: 100%; height: auto;">
-    </div>
-    
-    <header>
-        <h1>Login to POLICE</h1>
-    </header>
-    
-    <main>
-        <div class="form-container">
-            <form id="login-form" onsubmit="return handleLogin(event)">
-                <input type="text" id="username" placeholder="Username or Email" required>
-                <input type="password" id="password" placeholder="Password" required>
-                
-                <div>
-                    <input type="checkbox" id="remember-me">
-                    <label for="remember-me">Remember Me</label>
-                </div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - POLICE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-                <button type="submit">Login</button>
-                <p>Don't have an account? <a href="registration.html">Register here</a></p>
-                <p><a href="forgot-password.html">Forgot Password?</a></p>
-            </form>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('https://storage.googleapis.com/swayam2_central/b2c_login_pages/images/SignIn_Image.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1s ease;
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    label {
+      margin-left: 5px;
+      font-size: 0.95rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.03);
+    }
+
+    .form-container p {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .form-container a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+
+    .otp-button {
+      background-color: #ffc107;
+      color: black;
+      margin-top: 10px;
+    }
+
+    .otp-button:hover {
+      background-color: #e0a800;
+    }
+
+    footer {
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-popup {
+      background-color: rgba(40, 167, 69, 0.9);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      animation: fadeInOut 3s ease-in-out;
+      display: none;
+    }
+
+    .success-popup i {
+      margin-right: 8px;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(-20px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
+
+    @media (max-width: 500px) {
+      .form-container {
+        padding: 30px 20px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Login to POLICE</h1>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <!-- Success message -->
+      <div id="success-message" class="success-popup">
+        <i class="fa fa-check-circle"></i> Login successful!
+      </div>
+
+      <form id="login-form" onsubmit="return handleLogin(event)">
+        <div class="input-group">
+          <input type="text" id="username" placeholder="Username or Email" required />
+          <i class="fa fa-user"></i>
         </div>
-    </main>
-    <footer>
-        <p>&copy; 2023 POLICE Platform</p>
-    </footer>
-    <script src="script.js"></script>
+
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required />
+          <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-top: 10px;">
+          <input type="checkbox" id="remember-me" style="width: auto; margin-right: 8px;" />
+          <label for="remember-me">Remember Me</label>
+        </div>
+
+        <button type="submit">Login</button>
+        <button type="button" class="otp-button" onclick="alert('OTP feature coming soon!')">Login with OTP</button>
+
+        <p>Don't have an account? <a href="registration.html">Register here</a></p>
+        <p><a href="forgot-password.html">Forgot Password?</a></p>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function togglePasswordVisibility() {
+      const password = document.getElementById('password');
+      const toggleIcon = document.getElementById('togglePassword');
+      const isPasswordVisible = password.type === 'text';
+      password.type = isPasswordVisible ? 'password' : 'text';
+      toggleIcon.classList.toggle('fa-eye');
+      toggleIcon.classList.toggle('fa-eye-slash');
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username && password) {
+        const successMessage = document.getElementById("success-message");
+        successMessage.style.display = "block";
+
+        setTimeout(() => {
+          successMessage.style.display = "none";
+          window.location.href = "dashboard.html";
+        }, 3000); // wait before redirecting
+      } else {
+        alert("Please fill in both fields.");
+      }
+    }
+  </script>
+
 </body>
 </html>
