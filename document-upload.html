@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document Upload</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      padding: 40px;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      margin-right: 40px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .form-area {
+      flex: 1;
+    }
+
+    h2 {
+      border-left: 5px solid #007bff;
+      padding-left: 10px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 20px;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    input[type="file"]:focus {
+      border-color: #007bff;
+      outline: none;
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgba(0,123,255,0.1);
+    }
+
+    .submit-btn {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .submit-btn button {
+      padding: 12px 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .submit-btn button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="sidebar">
+    <ul>
+      <li><a href="personal-details.html">Personal Details</a></li>
+      <li><a href="crime-details.html">Crime Details</a></li>
+      <li><a href="document-upload.html">Document Upload</a></li>
+    </ul>
+  </div>
+
+  <div class="form-area">
+    <h2>Document Upload</h2>
+    <p>Please upload the necessary documents to support your case. Accepted formats: PDF, JPG, PNG.</p>
+
+    <form enctype="multipart/form-data">
+      <label for="identity_proof">Identity Proof (Aadhaar, PAN, etc.):</label>
+      <input type="file" id="identity_proof" name="identity_proof" accept=".pdf, .jpg, .jpeg, .png" required>
+
+      <label for="address_proof">Address Proof:</label>
+      <input type="file" id="address_proof" name="address_proof" accept=".pdf, .jpg, .jpeg, .png" required>
+
+      <label for="crime_photos">Photos related to the incident (if any):</label>
+      <input type="file" id="crime_photos" name="crime_photos" accept=".jpg, .jpeg, .png" multiple>
+
+      <label for="other_docs">Any other supporting documents:</label>
+      <input type="file" id="other_docs" name="other_docs" accept=".pdf, .jpg, .jpeg, .png" multiple>
+
+      <div class="submit-btn">
+        <button type="submit">Submit Documents</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
