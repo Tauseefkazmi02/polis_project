@@ -429,12 +429,13 @@ header {
 }
 
 main {
-    flex: 1; /* This allows the main section to take the remaining space */
+    flex: 1;
     display: flex;
-    align-items: center; /* Center the form vertically */
-    justify-content: center; /* Center the form horizontally */
-    background-color: #199282; /* Light background for contrast */
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(217, 214, 214); /* <- fix here */
 }
+
 
 .form-container {
     background-color: white; /* White background for the form */
