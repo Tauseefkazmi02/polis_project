@@ -13,15 +13,17 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: white !important;
+  color: #0055ff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
 
     header {
       background-color: #000;
@@ -114,7 +116,7 @@
     }
 
     footer {
-      background-color: #4e54c8;
+      background-color: #000000;
       color: #fff;
       text-align: center;
       padding: 20px;
@@ -156,7 +158,6 @@
     <nav>
       <a href="home.html">Home</a>
       <a href="track_case.html">Track Case</a>
-      <a href="services.html">Services</a>
       <a href="case_registration.html">Register Case</a>
       <a href="contact_us.html">Contact Us</a>
       <a href="login.html" style="background-color: crimson;">Logout</a>
@@ -190,9 +191,8 @@
 
   <footer>
     <h4>Contact Us</h4>
-    <p>Email: <a href="mailto:info@legalcommittee.org">info@legalcommittee.org</a></p>
-    <p>Phone: (123) 456-7890</p>
-    <p>Address: 123 Legal St, Law City, LC 12345</p>
+    <p>Email: <a href="mailto:polis@gmail.com">info@polis@gmail.com</a></p>
+    <p>Phone: 123- 456-7890</p>
   </footer>
 
   <script>
@@ -201,7 +201,7 @@
       const selectedService = document.getElementById('service').value;
 
       if (selectedService) {
-        window.location.href = 'crime-details.html';
+        window.location.href = 'personal-details.html';
       } else {
         alert('Please select a service before submitting the form.');
       }
