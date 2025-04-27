@@ -161,31 +161,36 @@
   </div>
 
   <script>
-    // Simulate fetching cases from localStorage or backend
-    function getCases() {
-      const casesJson = localStorage.getItem('cases');
-      if (casesJson) {
-        return JSON.parse(casesJson);
+    // Load cases from localStorage
+    async function getCases() {
+      try {
+        const casesJson = localStorage.getItem('cases');
+        if (!casesJson) return [];
+        const cases = JSON.parse(casesJson);
+        return cases;
+      } catch (error) {
+        console.error(error);
+        return [];
       }
-      return [];
     }
 
-    // Save cases back to localStorage
+    // Save cases to backend API (not implemented, so fallback to localStorage)
     function saveCases(cases) {
+      // TODO: Implement backend update API call
       localStorage.setItem('cases', JSON.stringify(cases));
     }
 
     // Render advocate view table
-    function renderAdvocateView() {
-      const cases = getCases();
+    async function renderAdvocateView() {
+      const cases = await getCases();
       const tbody = document.querySelector('#advocate-cases-table tbody');
       tbody.innerHTML = '';
       cases.forEach(c => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${c.caseId}</td>
-          <td>${c.firstName}</td>
-          <td>${c.lastName}</td>
+          <td>${c.caseId || ''}</td>
+          <td>${c.firstName || ''}</td>
+          <td>${c.lastName || ''}</td>
           <td>${c.status || 'Pending'}</td>
           <td>${c.investigatorComments || ''}</td>
         `;
@@ -194,16 +199,16 @@
     }
 
     // Render investigator view table
-    function renderInvestigatorView() {
-      const cases = getCases();
+    async function renderInvestigatorView() {
+      const cases = await getCases();
       const tbody = document.querySelector('#investigator-cases-table tbody');
       tbody.innerHTML = '';
       cases.forEach(c => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${c.caseId}</td>
-          <td>${c.firstName}</td>
-          <td>${c.lastName}</td>
+          <td>${c.caseId || ''}</td>
+          <td>${c.firstName || ''}</td>
+          <td>${c.lastName || ''}</td>
           <td><input type="text" value="${c.accused || ''}" data-caseid="${c.caseId}" class="accused-input" placeholder="Enter accused name" /></td>
           <td>
             <select data-caseid="${c.caseId}" class="verified-select">
@@ -228,35 +233,37 @@
     }
 
     // Save investigator updates
-    function saveInvestigatorUpdates(caseId) {
-      const cases = getCases();
-      const caseIndex = cases.findIndex(c => c.caseId === caseId);
-      if (caseIndex === -1) return;
+    async function saveInvestigatorUpdates(caseId) {
+      try {
+        const accusedInput = document.querySelector(`.accused-input[data-caseid="${caseId}"]`);
+        const verifiedSelect = document.querySelector(`.verified-select[data-caseid="${caseId}"]`);
+        const approvedSelect = document.querySelector(`.approved-select[data-caseid="${caseId}"]`);
 
-      const accusedInput = document.querySelector(`.accused-input[data-caseid="${caseId}"]`);
-      const verifiedSelect = document.querySelector(`.verified-select[data-caseid="${caseId}"]`);
-      const approvedSelect = document.querySelector(`.approved-select[data-caseid="${caseId}"]`);
+        const updatedCase = {
+          accused: accusedInput.value.trim(),
+          verified: verifiedSelect.value === 'true' ? true : (verifiedSelect.value === 'false' ? false : null),
+          approved: approvedSelect.value === 'true' ? true : (approvedSelect.value === 'false' ? false : null),
+        };
 
-      cases[caseIndex].accused = accusedInput.value.trim();
-      cases[caseIndex].verified = verifiedSelect.value === 'true' ? true : (verifiedSelect.value === 'false' ? false : null);
-      cases[caseIndex].approved = approvedSelect.value === 'true' ? true : (approvedSelect.value === 'false' ? false : null);
+        // Update localStorage
+        const cases = await getCases();
+        const caseIndex = cases.findIndex(c => c.caseId === caseId);
+        if (caseIndex === -1) return;
 
-      // Update status based on approval
-      if (cases[caseIndex].approved === true) {
-        cases[caseIndex].status = 'Approved';
-      } else if (cases[caseIndex].approved === false) {
-        cases[caseIndex].status = 'Rejected';
-      } else {
-        cases[caseIndex].status = 'Pending';
+        cases[caseIndex] = {
+          ...cases[caseIndex],
+          ...updatedCase,
+          status: updatedCase.approved === true ? 'Approved' : updatedCase.approved === false ? 'Rejected' : 'Pending',
+          investigatorComments: `Accused: ${updatedCase.accused || 'N/A'}, Verified: ${updatedCase.verified === true ? 'Yes' : updatedCase.verified === false ? 'No' : 'N/A'}`,
+        };
+
+        saveCases(cases);
+        alert('Investigation details saved.');
+        renderAdvocateView();
+        renderInvestigatorView();
+      } catch (error) {
+        console.error('Error saving investigator updates:', error);
       }
-
-      // Investigator comments summary
-      cases[caseIndex].investigatorComments = `Accused: ${cases[caseIndex].accused || 'N/A'}, Verified: ${cases[caseIndex].verified === true ? 'Yes' : cases[caseIndex].verified === false ? 'No' : 'N/A'}`;
-
-      saveCases(cases);
-      alert('Investigation details saved.');
-      renderAdvocateView();
-      renderInvestigatorView();
     }
 
     // Event delegation for save buttons in investigator view
