@@ -439,6 +439,15 @@ document.addEventListener('DOMContentLoaded', function() {
   function populateDistricts() {
     const state = stateSelect.value;
     districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+    if (state) {
+      const districts = districtData[state] || [];
+      districts.forEach(district => {
+        const option = document.createElement("option");
+        option.value = district;
+        option.textContent = district;
+        districtSelect.appendChild(option);
+      });
+    }
 
     if (districtData[state]) {
       districtData[state].forEach(district => {
@@ -561,10 +570,9 @@ document.addEventListener('DOMContentLoaded', function() {
     alert('Personal details saved!');
   });
 
-  nextButton.addEventListener('click', function() {
-    savePersonalDetails();
-    window.location.href = 'crime-details.html';
-  });
+    nextButton.addEventListener('click', function() {
+      window.location.href = 'crime-details.html';
+    });
 
   stateSelect.addEventListener('change', populateDistricts);
   maritalStatusSelect.addEventListener('change', toggleSpouseField);
