@@ -1,80 +1,81 @@
-let users = []; // Array to hold registered users
-
-function toggleForms() {
-    const loginForm = document.getElementById('login-form');
-    const registrationForm = document.getElementById('registration-form');
-    if (loginForm.style.display === "none") {
-        loginForm.style.display = "block";
-        registrationForm.style.display = "none";
-    } else {
-        loginForm.style.display = "none";
-        registrationForm.style.display = "block";
-    }
-}
-
-function handleLogin(event) {
-    event.preventDefault(); // Prevent the form from submitting
-
-    // Get username and password values
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    // Basic validation (you can enhance this)
-    if (username === "" || password === "") {
-        alert("Please fill in both fields.");
-        return false;
+document.addEventListener('DOMContentLoaded', () => {
+    // Example function to call backend API
+    function callBackendHello() {
+        fetch('http://localhost:8080/hello')
+            .then(response => response.text())
+            .then(data => {
+                console.log('Response from backend:', data);
+                const helloDiv = document.getElementById('hello-backend');
+                if (helloDiv) {
+                    helloDiv.textContent = data;
+                }
+            })
+            .catch(error => {
+                console.error('Error calling backend:', error);
+            });
     }
 
-    // Check for registered user
-    const user = users.find(user => (user.username === username || user.email === username) && user.password === password);
-    if (user) {
-        alert("Login successful! Welcome back, " + username + "!");
-        // Redirect or perform further actions after successful login
-    } else {
-        alert("Invalid username or password. Please try again.");
-    }
-}
-
-function handleRegistration(event) {
-    event.preventDefault(); // Prevent the form from submitting
-
-    // Get the date of birth value
-    const dobInput = document.getElementById('dob').value;
-    const dob = new Date(dobInput);
-    const today = new Date();
-
-    // Calculate age
-    let age = today.getFullYear() - dob.getFullYear();
-    const monthDiff = today.getMonth() - dob.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-        age--;
+    // Function to fetch all cases and update UI
+    function fetchCases() {
+        fetch('http://localhost:8080/cases')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cases from backend:', data);
+                const casesList = document.getElementById('cases-list');
+                if (casesList) {
+                    casesList.innerHTML = '';
+                    data.forEach(c => {
+                        const li = document.createElement('li');
+                        li.textContent = `#${c.id} - ${c.title}: ${c.description}`;
+                        casesList.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching cases:', error);
+            });
     }
 
-    // Set the age in the age input field
-    document.getElementById('age').value = age;
+    // Function to handle form submission to add a new case
+    function handleCaseFormSubmit(event) {
+        event.preventDefault();
+        const titleInput = document.getElementById('case-title');
+        const descriptionInput = document.getElementById('case-description');
+        if (!titleInput || !descriptionInput) return;
 
-    // Get password and confirm password values
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
+        const newCase = {
+            title: titleInput.value,
+            description: descriptionInput.value
+        };
 
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        alert("Passwords do not match. Please try again.");
-        return false; // Prevent form submission
+        fetch('http://localhost:8080/cases', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newCase)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Case added:', data);
+            titleInput.value = '';
+            descriptionInput.value = '';
+            fetchCases(); // Refresh the list
+        })
+        .catch(error => {
+            console.error('Error adding case:', error);
+        });
     }
 
-    // Check if user already exists
-    const userExists = users.some(user => user.username === username || user.email === email);
-    if (userExists) {
-        alert("User  already registered. Please log in.");
-    } else {
-        // Register the user
-        users.push({ name, dob, age, email, phone, username, password });
-        alert("Registration successful! You can now log in.");
-        toggleForms(); // Switch to login form
+    // Attach form submit event listener
+    const caseForm = document.getElementById('case-form');
+    if (caseForm) {
+        caseForm.addEventListener('submit', handleCaseFormSubmit);
     }
-}
+
+    // Call the backend hello API on page load
+    callBackendHello();
+
+    // Fetch cases on page load
+    fetchCases();
+});
