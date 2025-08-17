@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - POLICE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      margin-bottom: 10px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #1e90ff;
+      transform: scale(1.05);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in;
+      text-align: left;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #007bff;
+    }
+
+    section.details-section {
+      background-color: #f9f9f9;
+      padding: 20px 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    section.details-section h3 {
+      color: #333;
+      font-weight: 700;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+    }
+
+    ul.details-list {
+      list-style: none;
+      padding-left: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: white;
+      box-shadow: inset 0 0 10px #eee;
+    }
+
+    ul.details-list li {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    ul.details-list li:last-child {
+      border-bottom: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #777;
+      background-color: #f8f8f8;
+      margin-top: 40px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+      main {
+        margin: 20px 15px;
+        padding: 15px;
+      }
+      section.details-section {
+        padding: 15px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Dashboard</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="track_case.html">Track Case</a>
+      <a href="case_registration.html">Register Case</a>
+      <a href="contact_us.html">Contact Us</a>
+      <a href="login.html" style="background-color: crimson;">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Your Case Details</h2>
+
+    <section class="details-section">
+      <h3>Case ID</h3>
+      <p id="case-id">Loading...</p>
+    </section>
+
+    <section class="details-section">
+      <h3>Personal Details</h3>
+      <ul id="personal-details-list" class="details-list">
+        <li>Loading...</li>
+      </ul>
+    </section>
+
+    <section class="details-section">
+      <h3>Crime Details</h3>
+      <ul id="crime-details-list" class="details-list">
+        <li>Loading...</li>
+      </ul>
+    </section>
+
+    <section class="details-section">
+      <h3>Document Uploads</h3>
+      <ul id="document-upload-list" class="details-list">
+        <li>Loading...</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function displayCaseDetails() {
+      const caseRegistered = localStorage.getItem('caseRegistered');
+      if (caseRegistered !== 'true') {
+        // Case not registered yet, show message and clear details
+        document.getElementById('case-id').textContent = 'No case registered yet.';
+
+        const personalList = document.getElementById('personal-details-list');
+        personalList.innerHTML = '<li>No case registered yet.</li>';
+
+        const crimeList = document.getElementById('crime-details-list');
+        crimeList.innerHTML = '<li>No case registered yet.</li>';
+
+        const documentList = document.getElementById('document-upload-list');
+        documentList.innerHTML = '<li>No case registered yet.</li>';
+
+        return;
+      }
+
+      const caseId = localStorage.getItem('caseId');
+      const personalDetails = JSON.parse(localStorage.getItem('personalDetails'));
+      const crimeDetails = JSON.parse(localStorage.getItem('crimeDetails'));
+      const documentUpload = JSON.parse(localStorage.getItem('documentUpload'));
+
+      document.getElementById('case-id').textContent = caseId || 'N/A';
+
+      const personalList = document.getElementById('personal-details-list');
+      personalList.innerHTML = '';
+      if (personalDetails) {
+        for (const [key, value] of Object.entries(personalDetails)) {
+          const li = document.createElement('li');
+          li.textContent = `${formatKey(key)}: ${value || 'N/A'}`;
+          personalList.appendChild(li);
+        }
+      } else {
+        personalList.innerHTML = '<li>No personal details available.</li>';
+      }
+
+      const crimeList = document.getElementById('crime-details-list');
+      crimeList.innerHTML = '';
+      if (crimeDetails) {
+        for (const [key, value] of Object.entries(crimeDetails)) {
+          const li = document.createElement('li');
+          li.textContent = `${formatKey(key)}: ${value || 'N/A'}`;
+          crimeList.appendChild(li);
+        }
+      } else {
+        crimeList.innerHTML = '<li>No crime details available.</li>';
+      }
+
+      const documentList = document.getElementById('document-upload-list');
+      documentList.innerHTML = '';
+      if (documentUpload) {
+        for (const [key, value] of Object.entries(documentUpload)) {
+          const li = document.createElement('li');
+          if (Array.isArray(value)) {
+            li.textContent = `${formatKey(key)}: ${value.length > 0 ? value.join(', ') : 'None'}`;
+          } else {
+            li.textContent = `${formatKey(key)}: ${value || 'N/A'}`;
+          }
+          documentList.appendChild(li);
+        }
+      } else {
+        documentList.innerHTML = '<li>No document uploads available.</li>';
+      }
+    }
+
+    function formatKey(key) {
+      // Convert camelCase or snake_case to normal words with spaces and capitalize first letter
+      const result = key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ');
+      return result.charAt(0).toUpperCase() + result.slice(1);
+    }
+
+    window.onload = displayCaseDetails;
+  </script>
+</body>
+</html>
+
