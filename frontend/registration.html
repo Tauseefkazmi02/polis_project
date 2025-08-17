@@ -3,167 +3,470 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registration - POLICE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Register - POLIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e0eafc, #cfdef3);
-      margin: 0;
-      padding: 0;
-    }
+   * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    header {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 20px 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 2rem;
+  position: relative;
+  overflow-x: hidden;
+}
 
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      color: white;
-    }
+/* Background Animation */
+.bg-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
 
-    nav {
-      margin-top: 10px;
-    }
+.bg-animation::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
 
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 1.1rem;
-      position: relative;
-    }
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-    nav a:hover {
-      color: #ffdd57;
-    }
+/* Header */
+.header {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 10;
+}
 
-    .form-container {
-      background-color: #fff;
-      max-width: 420px;
-      margin: 40px auto;
-      padding: 30px 25px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
+.logo i {
+  font-size: 1.8rem;
+  color: #ffdd57;
+}
 
-    input:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
-    }
+/* Registration Container */
+.registration-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+  animation: slideUp 0.6s ease-out;
+}
 
-    .error {
-      color: red;
-      font-size: 0.9rem;
-      display: none;
-    }
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    .message {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-      color: green;
-      display: none;
-    }
+.registration-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
 
-    #strength-bar {
-      height: 8px;
-      margin-top: -8px;
-      margin-bottom: 12px;
-      border-radius: 6px;
-      background-color: #e0e0e0;
-      overflow: hidden;
-    }
+.registration-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
 
-    .strength {
-      height: 100%;
-      width: 0%;
-      transition: width 0.4s ease-in-out;
-    }
+.registration-header p {
+  color: #666;
+  font-size: 0.95rem;
+}
 
-    .weak { background-color: red; width: 33%; }
-    .medium { background-color: orange; width: 66%; }
-    .strong { background-color: green; width: 100%; }
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
+}
 
-    button:hover {
-      background-color: #218838;
-    }
+.input-wrapper {
+  position: relative;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
-    }
+.form-group input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input[readonly] {
+  background-color: #f8f9fa;
+  color: #666;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.form-group input:focus + .input-icon {
+  color: #667eea;
+}
+
+/* Toggle Password Icon */
+.toggle-password {
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: #333;
+}
+
+/* Password Strength */
+.password-strength {
+  margin-top: 0.5rem;
+}
+
+.strength-bar {
+  height: 6px;
+  background-color: #e1e5e9;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.strength-fill {
+  height: 100%;
+  width: 0%;
+  transition: all 0.3s ease;
+  border-radius: 3px;
+}
+
+.strength-weak { background-color: #dc3545; }
+.strength-medium { background-color: #ffc107; }
+.strength-strong { background-color: #28a745; }
+
+.strength-text {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Error Messages */
+.error-message {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: none;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Success Message */
+.success-message {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  display: none;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Links */
+.links {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.links a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #764ba2;
+}
+
+.links p {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .registration-container {
+    padding: 2rem;
+    margin: 1rem;
+  }
+
+  .registration-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header {
+    top: 1rem;
+    left: 1rem;
+  }
+}
+
+/* Form Grid for better layout */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
   </style>
 </head>
 <body>
+  <!-- Background Animation -->
+  <div class="bg-animation"></div>
 
-  <header>
-    <h1>Welcome to POLIS</h1>
-    <nav>
-      <a href="home.html">Home</a>
-      <a href="login.html">User Login</a>
-      <a href="admin-login.html">Admin Login</a>
-      <a href="registration.html">Register</a>
-      <a href="contact_us.html">Contact</a>
-    </nav>
-  </header>
+  <!-- Header -->
+  <div class="header">
+    <a href="home.html" class="logo">
+      <i class="fas fa-shield-alt"></i>
+      POLIS
+    </a>
+  </div>
 
-  <main>
-    <div class="form-container">
-      <form id="registration-form" onsubmit="return handleRegistration(event)">
-        <input type="text" id="name" placeholder="Name" required>
-        <input type="date" id="dob" placeholder="Date of Birth" required>
-        <input type="number" id="age" placeholder="Age" required readonly>
-        <input type="email" id="email" placeholder="Email Address" required>
-        <div class="error" id="email-error">Invalid email format.</div>
-        <input type="tel" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
-        <input type="text" id="username" placeholder="Username" required>
-
-        <input type="password" id="password" placeholder="Password" required>
-        <div id="strength-bar"><div id="strength" class="strength"></div></div>
-
-        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
-        <div class="error" id="password-error">Passwords do not match.</div>
-
-        <button type="submit">Register</button>
-        <p style="text-align:center;">Already have an account? <a href="login.html">Login here</a></p>
-        <div class="message" id="success-message">🎉 Registration successful! Redirecting...</div>
-      </form>
+  <!-- Registration Container -->
+  <div class="registration-container">
+    <div class="registration-header">
+      <h1>Create Account</h1>
+      <p>Join POLIS and start managing cases efficiently</p>
     </div>
-  </main>
 
-  <footer>
-    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
-  </footer>
+    <!-- Success Message -->
+    <div id="success-message" class="success-message">
+      <i class="fas fa-check-circle"></i>
+      Registration successful! Redirecting to login...
+    </div>
+
+    <!-- Error Message -->
+    <div id="api-error" class="error-message"></div>
+
+    <form id="registration-form" onsubmit="return handleRegistration(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="fullname" placeholder="Enter your full name" required />
+            <i class="fas fa-user input-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" placeholder="Choose a username" required />
+            <i class="fas fa-at input-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <div class="input-wrapper">
+            <input type="date" id="dob" required />
+            <i class="fas fa-calendar input-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age</label>
+          <div class="input-wrapper">
+            <input type="number" id="age" placeholder="Auto-calculated" required readonly />
+            <i class="fas fa-birthday-cake input-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <input type="email" id="email" placeholder="Enter your email" required />
+          <i class="fas fa-envelope input-icon"></i>
+        </div>
+        <div id="email-error" class="error-message">Invalid email format.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <div class="input-wrapper">
+          <input type="tel" id="phone" placeholder="Enter your phone number" required />
+          <i class="fas fa-phone input-icon"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Create a strong password" required />
+          <i class="fas fa-lock input-icon"></i>
+          <i class="fas fa-eye toggle-password" onclick="togglePassword(this, 'password')"></i>
+        </div>
+        <div class="password-strength">
+          <div class="strength-bar">
+            <div id="strength" class="strength-fill"></div>
+          </div>
+          <div id="strength-text" class="strength-text">Password strength</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="confirm-password" placeholder="Confirm your password" required />
+          <i class="fas fa-lock input-icon"></i>
+          <i class="fas fa-eye toggle-password" onclick="togglePassword(this, 'confirm-password')"></i>
+        </div>
+        <div id="password-error" class="error-message">Passwords do not match.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="register-btn">
+        <i class="fas fa-user-plus"></i>
+        Create Account
+      </button>
+    </form>
+
+    <div class="links">
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+  </div>
 
   <script>
     const dobInput = document.getElementById("dob");
@@ -173,9 +476,12 @@
     const passwordError = document.getElementById("password-error");
     const successMessage = document.getElementById("success-message");
     const strengthBar = document.getElementById("strength");
+    const strengthText = document.getElementById("strength-text");
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
+    const phoneInput = document.getElementById("phone");
 
+    // Age calculation
     dobInput.addEventListener("change", () => {
       const dob = new Date(dobInput.value);
       const today = new Date();
@@ -184,57 +490,149 @@
       if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
         age--;
       }
-      ageInput.value = age;
+      ageInput.value = age > 0 ? age : 0;
     });
 
+    // Password confirmation
     confirmPasswordInput.addEventListener("input", () => {
       passwordError.style.display = (passwordInput.value !== confirmPasswordInput.value) ? "block" : "none";
     });
 
+    // Email validation
     emailInput.addEventListener("input", () => {
       const pattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
       emailError.style.display = pattern.test(emailInput.value) ? "none" : "block";
     });
 
+    // Password strength
     passwordInput.addEventListener("input", () => {
       const val = passwordInput.value;
       let strength = "weak";
+      let width = "33%";
+      let text = "Weak password";
+      
       if (val.length >= 6 && /[A-Z]/.test(val) && /\d/.test(val)) {
         strength = "medium";
+        width = "66%";
+        text = "Medium strength";
       }
       if (val.length >= 8 && /[A-Z]/.test(val) && /[a-z]/.test(val) && /\d/.test(val) && /[@$!%*?&]/.test(val)) {
         strength = "strong";
+        width = "100%";
+        text = "Strong password";
       }
-      strengthBar.className = `strength ${strength}`;
+      
+      strengthBar.className = `strength-fill strength-${strength}`;
+      strengthBar.style.width = width;
+      strengthText.textContent = text;
     });
 
-    function handleRegistration(event) {
+    function togglePassword(icon, inputId) {
+      const input = document.getElementById(inputId);
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        input.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    }
+
+    function resetRegisterButton(btn, originalText) {
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }
+
+    async function handleRegistration(event) {
       event.preventDefault();
 
+      const fullName = document.getElementById("fullname").value.trim();
       const email = emailInput.value.trim();
       const username = document.getElementById("username").value.trim();
       const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+      const phone = phoneInput.value.trim();
+      const age = parseInt(ageInput.value);
+      const apiError = document.getElementById('api-error');
+      const registerBtn = document.getElementById('register-btn');
+      const originalText = '<i class="fas fa-user-plus"></i> Create Account';
+
+      // Reset messages
+      successMessage.style.display = "none";
+      apiError.style.display = "none";
+
+      // Basic validations
+      if (!fullName) {
+        alert("Please enter your full name.");
+        return false;
+      }
 
       if (!email || emailError.style.display === "block") {
         alert("Please enter a valid email address.");
         return false;
       }
 
-      if (password !== confirmPasswordInput.value) {
+      if (!username) {
+        alert("Please enter a username.");
+        return false;
+      }
+
+      if (!/^\d{10}$/.test(phone)) {
+        alert("Phone number must be exactly 10 digits.");
+        return false;
+      }
+
+      if (isNaN(age) || age < 18) {
+        alert("You must be at least 18 years old to register.");
+        return false;
+      }
+
+      if (password !== confirmPassword) {
         passwordError.style.display = "block";
         return false;
       }
 
-      // Store in localStorage
-      localStorage.setItem("username", username);
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password); // ⚠️ Only for demo. Avoid storing raw passwords in production.
+      const strongPasswordPattern = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).*$/;
+      if (!strongPasswordPattern.test(password)) {
+        alert("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+        return false;
+      }
 
-      successMessage.style.display = "block";
+      try {
+        registerBtn.innerHTML = '<div class="loading"></div> Creating Account...';
+        registerBtn.disabled = true;
 
-      setTimeout(() => {
-        window.location.href = 'login.html';
-      }, 2000);
+        const response = await fetch('http://localhost:8080/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+            full_name: fullName,
+            phone
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          successMessage.style.display = "block";
+          if (data.token) localStorage.setItem('polis_token', data.token);
+          resetRegisterButton(registerBtn, originalText);
+          setTimeout(() => window.location.href = 'login.html', 2000);
+        } else {
+          apiError.textContent = data.message || data.error || 'Registration failed. Please try again.';
+          apiError.style.display = 'block';
+          resetRegisterButton(registerBtn, originalText);
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        apiError.textContent = 'Network error. Please check your connection and try again.';
+        apiError.style.display = 'block';
+        resetRegisterButton(registerBtn, originalText);
+      }
+
       return false;
     }
   </script>
