@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - POLICE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <title>Login - POLIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -14,158 +14,113 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: url('https://storage.googleapis.com/swayam2_central/b2c_login_pages/images/SignIn_Image.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-    }
-
-    header {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 20px 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-      color: white;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-
-    nav {
-      margin-top: 10px;
-    }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 1.1rem;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    nav a::after {
-      content: "";
-      display: block;
-      width: 0;
-      height: 2px;
-      background: #ffdd57;
-      transition: width 0.3s;
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-    }
-
-    nav a:hover {
-      color: #ffdd57;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    main {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .form-container {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      max-width: 400px;
-      width: 100%;
-      animation: fadeIn 1s ease;
+      padding: 2rem;
       position: relative;
+      overflow: hidden;
     }
 
-    input {
-      width: 100%;
-      padding: 12px 40px 12px 12px;
-      margin: 12px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    .input-group {
-      position: relative;
-    }
-
-    .input-group i {
+    /* Background Animation */
+    .bg-animation {
       position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #aaa;
-      cursor: pointer;
-    }
-
-    label {
-      margin-left: 5px;
-      font-size: 0.95rem;
-    }
-
-    button {
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 14px;
-      margin-top: 15px;
-      background-color: #007bff;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Header */
+    .header {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-      transform: scale(1.03);
-    }
-
-    .form-container p {
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    .form-container a {
-      color: #ffcc00;
       text-decoration: none;
     }
 
-    .otp-button {
-      background-color: #ffc107;
-      color: black;
-      margin-top: 10px;
+    .logo i {
+      font-size: 1.8rem;
+      color: #ffdd57;
     }
 
-    .otp-button:hover {
-      background-color: #e0a800;
+    /* Navigation Menu */
+    .nav-menu {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      z-index: 10;
     }
 
-    footer {
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      font-size: 0.9rem;
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-left: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
     }
 
-    @keyframes fadeIn {
+    .nav-menu a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+    }
+
+    /* Login Container */
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 3rem;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 2;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
       from {
         opacity: 0;
         transform: translateY(30px);
@@ -176,125 +131,379 @@
       }
     }
 
-    .success-popup {
-      background-color: rgba(40, 167, 69, 0.9);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 6px;
+    .login-header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
+    }
+
+    .login-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
       font-size: 1rem;
-      animation: fadeInOut 3s ease-in-out;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      transition: color 0.3s ease;
+    }
+
+    .form-group input:focus + .input-icon {
+      color: #667eea;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    .password-toggle:hover {
+      color: #667eea;
+    }
+
+    /* Error Messages */
+    .error-message {
+      color: #dc3545;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
       display: none;
+      animation: shake 0.5s ease-in-out;
     }
 
-    .success-popup i {
-      margin-right: 8px;
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
     }
 
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translateY(-20px); }
-      10% { opacity: 1; transform: translateY(0); }
-      90% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-20px); }
+    /* Remember Me */
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    #username-error,
-    #password-error {
-      transition: opacity 0.3s ease;
-      opacity: 0;
+    .remember-me input[type="checkbox"] {
+      width: auto;
+      margin: 0;
     }
 
-    #username-error[style*="block"],
-    #password-error[style*="block"] {
-      opacity: 1;
+    .remember-me label {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
     }
 
-    @media (max-width: 500px) {
-      .form-container {
-        padding: 30px 20px;
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #333;
+      border: 2px solid #e1e5e9;
+      margin-top: 1rem;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+
+    /* Success Message */
+    .success-message {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      display: none;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Links */
+    .links {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .links a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .links a:hover {
+      color: #764ba2;
+    }
+
+    .links p {
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: #999;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e1e5e9;
+    }
+
+    .divider span {
+      padding: 0 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 2rem;
+        margin: 1rem;
       }
 
-      header h1 {
-        font-size: 2rem;
+      .login-header h1 {
+        font-size: 1.5rem;
       }
+
+      .header {
+        top: 1rem;
+        left: 1rem;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <!-- Background Animation -->
+  <div class="bg-animation"></div>
 
-  <header>
-    <h1>Login to POLIS</h1>
-    <nav>
-      <a href="home.html">Home</a>
-      <a href="login.html">User Login</a>
-      <a href="admin-login.html">Admin Login</a>
-      <a href="registration.html">Register</a>
-      <a href="contact_us.html">Contact</a>
-    </nav>
-  </header>
+  <!-- Header -->
+  <div class="header">
+    <a href="home.html" class="logo">
+      <i class="fas fa-shield-alt"></i>
+      POLIS
+    </a>
+  </div>
 
-  <main>
-    <div class="form-container">
-      <!-- Success message -->
-      <div id="success-message" class="success-popup">
-        <i class="fa fa-check-circle"></i> Login successful!
+  <!-- Navigation Menu -->
+  <div class="nav-menu">
+    <a href="home.html">Home</a>
+    <a href="registration.html">Register</a>
+    <a href="contact_us.html">Contact</a>
+  </div>
+
+  <!-- Login Container -->
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p>Sign in to your POLIS account</p>
+    </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="success-message">
+      <i class="fas fa-check-circle"></i>
+      Login successful! Redirecting...
+    </div>
+
+    <form id="login-form" onsubmit="return handleLogin(event)">
+      <div class="form-group">
+        <label for="username">Username or Email</label>
+        <div class="input-wrapper">
+          <input type="text" id="username" placeholder="Enter your username or email" required />
+          <i class="fas fa-user input-icon"></i>
+        </div>
+        <div id="username-error" class="error-message"></div>
       </div>
 
-      <form id="login-form" onsubmit="return handleLogin(event)">
-        <div class="input-group">
-          <input type="text" id="username" placeholder="Username or Email" required />
-          <i class="fa fa-user"></i>
-          <div id="username-error" style="color: #ffcc00; font-size: 0.9rem; margin-top: 4px; display: none;"></div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Enter your password" required />
+          <i class="fas fa-lock input-icon"></i>
+          <button type="button" class="password-toggle" onclick="togglePassword()">
+            <i class="fas fa-eye" id="toggle-icon"></i>
+          </button>
         </div>
+        <div id="password-error" class="error-message"></div>
+      </div>
 
-        <div class="input-group">
-          <input type="password" id="password" placeholder="Password" required />
-          <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
-          <div id="password-error" style="color: #ffcc00; font-size: 0.9rem; margin-top: 4px; display: none;"></div>
-        </div>
+      <div class="remember-me">
+        <input type="checkbox" id="remember-me" />
+        <label for="remember-me">Remember me</label>
+      </div>
 
-        <div style="display: flex; align-items: center; margin-top: 10px;">
-          <input type="checkbox" id="remember-me" style="width: auto; margin-right: 8px;" />
-          <label for="remember-me">Remember Me</label>
-        </div>
+      <button type="submit" class="btn btn-primary" id="login-btn">
+        <i class="fas fa-sign-in-alt"></i>
+        Sign In
+      </button>
 
-        <button type="submit">Login</button>
-        <button type="button" class="otp-button" onclick="alert('OTP feature coming soon!')">Login with OTP</button>
+      <div class="divider">
+        <span>or</span>
+      </div>
 
-        <p>Don't have an account? <a href="registration.html">Register here</a></p>
-        <p><a href="forgot-password.html">Forgot Password?</a></p>
-      </form>
+      <button type="button" class="btn btn-secondary" onclick="alert('OTP feature coming soon!')">
+        <i class="fas fa-mobile-alt"></i>
+        Login with OTP
+      </button>
+    </form>
+
+    <div class="links">
+      <p>Don't have an account? <a href="registration.html">Register here</a></p>
+      <p><a href="forgot-password.html">Forgot Password?</a></p>
     </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
-  </footer>
+  </div>
 
   <script>
-    function togglePasswordVisibility() {
+    function togglePassword() {
       const password = document.getElementById('password');
-      const toggleIcon = document.getElementById('togglePassword');
-      const isPasswordVisible = password.type === 'text';
-      password.type = isPasswordVisible ? 'password' : 'text';
-      toggleIcon.classList.toggle('fa-eye');
-      toggleIcon.classList.toggle('fa-eye-slash');
+      const toggleIcon = document.getElementById('toggle-icon');
+      
+      if (password.type === 'password') {
+        password.type = 'text';
+        toggleIcon.className = 'fas fa-eye-slash';
+      } else {
+        password.type = 'password';
+        toggleIcon.className = 'fas fa-eye';
+      }
     }
 
-    function handleLogin(event) {
+    async function handleLogin(event) {
+      event.preventDefault();
+      
       const usernameInput = document.getElementById("username");
-      const username = usernameInput.value.trim();
       const passwordInput = document.getElementById("password");
-      const password = passwordInput.value;
       const usernameError = document.getElementById("username-error");
       const passwordError = document.getElementById("password-error");
+      const successMessage = document.getElementById("success-message");
+      const loginBtn = document.getElementById("login-btn");
 
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      // Reset error messages
       usernameError.style.display = "none";
       passwordError.style.display = "none";
-      usernameInput.style.borderColor = "";
-      passwordInput.style.borderColor = "";
+      successMessage.style.display = "none";
+      usernameInput.style.borderColor = "#e1e5e9";
+      passwordInput.style.borderColor = "#e1e5e9";
 
+      // Validation
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
@@ -303,36 +512,80 @@
       if (username.includes('@') && !emailPattern.test(username)) {
         usernameError.textContent = "Please enter a valid email address.";
         usernameError.style.display = "block";
-        usernameInput.style.borderColor = "red";
+        usernameInput.style.borderColor = "#dc3545";
         isValid = false;
       }
 
       if (!passwordPattern.test(password)) {
         passwordError.textContent = "Password must be at least 8 characters and include letters and numbers.";
         passwordError.style.display = "block";
-        passwordInput.style.borderColor = "red";
+        passwordInput.style.borderColor = "#dc3545";
         isValid = false;
       }
 
       if (!isValid) {
-        event.preventDefault();
         return false;
       }
 
-      event.preventDefault();
-      const successMessage = document.getElementById("success-message");
-      successMessage.style.display = "block";
+      try {
+        // Show loading state
+        const originalText = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<div class="loading"></div> Signing In...';
+        loginBtn.disabled = true;
 
-      // Clear localStorage to remove previous user data on new login
-      localStorage.clear();
+        // Call the backend API
+        const response = await fetch('http://localhost:8080/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        });
 
-      setTimeout(() => {
-        successMessage.style.display = "none";
-        window.location.href = "dashboard.html";
-      }, 3000);
-      return true;
+        const data = await response.json();
+
+        if (response.ok) {
+          // Login successful
+          successMessage.style.display = "block";
+          
+          // Store token
+          if (data.token) {
+            localStorage.setItem('polis_token', data.token);
+            localStorage.setItem('user_data', JSON.stringify(data.user));
+          }
+
+          setTimeout(() => {
+            // Redirect based on user role
+            if (data.user && data.user.role === 'admin') {
+              window.location.href = "admin-dashboard.html";
+            } else {
+              window.location.href = "dashboard.html";
+            }
+          }, 2000);
+        } else {
+          // Login failed
+          if (data.error && data.error.includes('credentials')) {
+            passwordError.textContent = "Invalid username or password.";
+            passwordError.style.display = "block";
+            passwordInput.style.borderColor = "#dc3545";
+          } else {
+            alert(data.error || 'Login failed. Please try again.');
+          }
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Network error. Please check your connection and try again.');
+      } finally {
+        // Reset button
+        loginBtn.innerHTML = originalText;
+        loginBtn.disabled = false;
+      }
+
+      return false;
     }
   </script>
-
 </body>
 </html>
