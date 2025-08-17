@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Login - POLICE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <title>Admin Login - POLIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -14,148 +14,83 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: url('https://storage.googleapis.com/swayam2_central/b2c_login_pages/images/SignIn_Image.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
       min-height: 100vh;
-    }
-
-    header {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 20px 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-      color: white;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-
-    nav {
-      margin-top: 10px;
-    }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 1.1rem;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    nav a::after {
-      content: "";
-      display: block;
-      width: 0;
-      height: 2px;
-      background: #ffdd57;
-      transition: width 0.3s;
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-    }
-
-    nav a:hover {
-      color: #ffdd57;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    main {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .form-container {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      max-width: 450px;
-      width: 100%;
-      animation: fadeIn 1s ease;
+      padding: 2rem;
       position: relative;
+      overflow: hidden;
     }
 
-    input {
-      width: 100%;
-      padding: 12px 40px 12px 12px;
-      margin: 12px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    .input-group {
-      position: relative;
-    }
-
-    .input-group i {
+    /* Background Animation */
+    .bg-animation {
       position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #aaa;
-      cursor: pointer;
-    }
-
-    label {
-      margin-left: 5px;
-      font-size: 0.95rem;
-    }
-
-    button {
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 14px;
-      margin-top: 15px;
-      background-color: #007bff;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .bg-animation::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Header */
+    .header {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-      transform: scale(1.03);
-    }
-
-    .form-container p {
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    .form-container a {
-      color: #ffcc00;
       text-decoration: none;
     }
 
-    footer {
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      font-size: 0.9rem;
+    .logo i {
+      font-size: 1.8rem;
+      color: #ffdd57;
     }
 
-    @keyframes fadeIn {
+    /* Admin Login Container */
+    .admin-login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 3rem;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 2;
+      animation: slideUp 0.6s ease-out;
+      border: 2px solid rgba(30, 60, 114, 0.1);
+    }
+
+    @keyframes slideUp {
       from {
         opacity: 0;
         transform: translateY(30px);
@@ -166,166 +101,615 @@
       }
     }
 
-    @media (max-width: 500px) {
-      .form-container {
-        padding: 30px 20px;
-      }
-
-      header h1 {
-        font-size: 2rem;
-      }
-    }
-
-    .toast-message {
-      visibility: hidden;
-      min-width: 250px;
-      background-color: #28a745;
-      color: white;
+    .admin-login-header {
       text-align: center;
-      border-radius: 8px;
-      padding: 16px;
-      position: fixed;
-      z-index: 999;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-bottom: 2rem;
+    }
+
+    .admin-login-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1e3c72;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-login-header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
       font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+      font-size: 0.9rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
       font-size: 1rem;
-      opacity: 0;
-      transition: opacity 0.5s, bottom 0.5s;
+      transition: all 0.3s ease;
+      background: white;
     }
 
-    .toast-message.show {
-      visibility: visible;
-      opacity: 1;
-      bottom: 50px;
+    .form-group input:focus {
+      outline: none;
+      border-color: #1e3c72;
+      box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
     }
 
-    .role-selection {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      transition: color 0.3s ease;
     }
 
-    .role-selection label {
+    .form-group input:focus + .input-icon {
+      color: #1e3c72;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    .password-toggle:hover {
+      color: #1e3c72;
+    }
+
+    /* Error Messages */
+    .error-message {
+      color: #dc3545;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* Remember Me */
+    .remember-me {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .remember-me label {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #333;
+      border: 2px solid #e1e5e9;
+      margin-top: 1rem;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+      transform: translateY(-2px);
+    }
+
+    /* Success Message */
+    .success-message {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      display: none;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Links */
+    .links {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .links a {
+      color: #1e3c72;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .links a:hover {
+      color: #2a5298;
+    }
+
+    .links p {
+      margin-bottom: 0.5rem;
+      color: #666;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: #999;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e1e5e9;
+    }
+
+    .divider span {
+      padding: 0 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Role Selection */
+    .role-selection {
+      margin-bottom: 2rem;
+    }
+
+    .role-selection h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      padding: 1rem;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      background: white;
+      min-width: 140px;
+      justify-content: center;
+    }
+
+    .radio-option:hover {
+      border-color: #1e3c72;
+      transform: translateY(-2px);
+    }
+
+    .radio-option input[type="radio"] {
+      display: none;
+    }
+
+    .radio-custom {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e1e5e9;
+      border-radius: 50%;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-custom {
+      border-color: #1e3c72;
+      background: #1e3c72;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-custom::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .radio-option input[type="radio"]:checked ~ .role-info {
+      color: #1e3c72;
+    }
+
+    .role-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      transition: color 0.3s ease;
+    }
+
+    .role-info i {
+      font-size: 1.2rem;
+    }
+
+    .role-info span {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Security Notice */
+    .security-notice {
+      background: rgba(30, 60, 114, 0.1);
+      border: 1px solid rgba(30, 60, 114, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .security-notice i {
+      color: #1e3c72;
+      margin-right: 0.5rem;
+    }
+
+    .security-notice p {
+      color: #666;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .admin-login-container {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      .admin-login-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .header {
+        top: 1rem;
+        left: 1rem;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <!-- Background Animation -->
+  <div class="bg-animation"></div>
 
-  <header>
-    <h1>Admin Login - POLIS</h1>
-    <nav>
-      <a href="home.html">Home</a>
-      <a href="login.html">User Login</a>
-      <a href="admin-login.html" class="active">Admin Login</a>
-      <a href="registration.html">Register</a>
-      <a href="contact_us.html">Contact</a>
-    </nav>
-  </header>
+  <!-- Header -->
+  <div class="header">
+    <a href="home.html" class="logo">
+      <i class="fas fa-shield-alt"></i>
+      POLIS
+    </a>
+  </div>
 
-  <main>
-    <div class="form-container">
-      <form id="admin-login-form" onsubmit="return handleAdminLogin(event)">
-
-        <!-- Role Selection -->
-        <div class="role-selection">
-          <label>
-            <input type="radio" name="admin-role" value="advocate" checked onclick="updateUsernamePlaceholder()" />
-            Advocate
-          </label>
-          <label>
-            <input type="radio" name="admin-role" value="investigator" onclick="updateUsernamePlaceholder()" />
-            Investigator
-          </label>
-        </div>
-
-        <!-- Username Field -->
-        <div class="input-group">
-          <input type="text" id="admin-username" placeholder="Bar Code / Username / Email" required />
-          <i class="fa fa-user"></i>
-        </div>
-
-        <!-- Password Field -->
-        <div class="input-group">
-          <input type="password" id="admin-password" placeholder="Password" required />
-          <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
-        </div>
-
-        <div style="display: flex; align-items: center; margin-top: 10px;">
-          <input type="checkbox" id="remember-admin" style="width: auto; margin-right: 8px;" />
-          <label for="remember-admin">Remember Me</label>
-        </div>
-
-        <button type="submit">Login</button>
-        <p><a href="#">Forgot Password?</a></p>
-      </form>
+  <!-- Admin Login Container -->
+  <div class="admin-login-container">
+    <div class="admin-login-header">
+      <div class="admin-badge">
+        <i class="fas fa-user-shield"></i>
+        Administrator Access
+      </div>
+      <h1>Admin Login</h1>
+      <p>Access the POLIS administrative dashboard</p>
     </div>
-  </main>
 
-  <footer>
-    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
-  </footer>
+    <!-- Success Message -->
+    <div id="success-message" class="success-message">
+      <i class="fas fa-check-circle"></i>
+      Login successful! Redirecting to admin dashboard...
+    </div>
 
-  <!-- Toast Message -->
-  <div id="toast" class="toast-message">Admin login successful!</div>
+    <form id="admin-login-form" onsubmit="return handleAdminLogin(event)">
+      <!-- Role Selection -->
+      <div class="role-selection">
+        <h3>Select Your Role</h3>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="admin-role" value="advocate" checked />
+            <span class="radio-custom"></span>
+            <div class="role-info">
+              <i class="fas fa-gavel"></i>
+              <span>Advocate</span>
+            </div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="admin-role" value="investigator" />
+            <span class="radio-custom"></span>
+            <div class="role-info">
+              <i class="fas fa-search"></i>
+              <span>Investigator</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Admin Username</label>
+        <div class="input-wrapper">
+          <input type="text" id="username" placeholder="Enter admin username" required />
+          <i class="fas fa-user-shield input-icon"></i>
+        </div>
+        <div id="username-error" class="error-message"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Admin Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Enter admin password" required />
+          <i class="fas fa-lock input-icon"></i>
+          <button type="button" class="password-toggle" onclick="togglePassword()">
+            <i class="fas fa-eye" id="toggle-icon"></i>
+          </button>
+        </div>
+        <div id="password-error" class="error-message"></div>
+      </div>
+
+      <div class="remember-me">
+        <input type="checkbox" id="remember-me" />
+        <label for="remember-me">Remember me</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="login-btn">
+        <i class="fas fa-sign-in-alt"></i>
+        Access Admin Panel
+      </button>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <button type="button" class="btn btn-secondary" onclick="alert('Two-factor authentication coming soon!')">
+        <i class="fas fa-key"></i>
+        Use 2FA
+      </button>
+    </form>
+
+    <div class="links">
+      <p><a href="login.html">← Back to User Login</a></p>
+      <p><a href="forgot-password.html">Forgot Admin Password?</a></p>
+    </div>
+
+    <div class="security-notice">
+      <i class="fas fa-shield-alt"></i>
+      <p>This is a secure administrative access point. All login attempts are logged and monitored.</p>
+    </div>
+  </div>
 
   <script>
-    function togglePasswordVisibility() {
-      const password = document.getElementById('admin-password');
-      const toggleIcon = document.getElementById('togglePassword');
-      const isPasswordVisible = password.type === 'text';
-      password.type = isPasswordVisible ? 'password' : 'text';
-      toggleIcon.classList.toggle('fa-eye');
-      toggleIcon.classList.toggle('fa-eye-slash');
+    function togglePassword() {
+      const password = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggle-icon');
+      
+      if (password.type === 'password') {
+        password.type = 'text';
+        toggleIcon.className = 'fas fa-eye-slash';
+      } else {
+        password.type = 'password';
+        toggleIcon.className = 'fas fa-eye';
+      }
     }
 
-    function updateUsernamePlaceholder() {
-      const usernameInput = document.getElementById("admin-username");
+    async function handleAdminLogin(event) {
+      event.preventDefault();
+      
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const usernameError = document.getElementById("username-error");
+      const passwordError = document.getElementById("password-error");
+      const successMessage = document.getElementById("success-message");
+      const loginBtn = document.getElementById("login-btn");
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
       const selectedRole = document.querySelector('input[name="admin-role"]:checked').value;
 
-      if (selectedRole === "advocate") {
-        usernameInput.placeholder = "Bar Code / Username / Email";
-      } else {
-        usernameInput.placeholder = "Investigation ID / Username / Email";
+      // Reset error messages
+      usernameError.style.display = "none";
+      passwordError.style.display = "none";
+      successMessage.style.display = "none";
+      usernameInput.style.borderColor = "#e1e5e9";
+      passwordInput.style.borderColor = "#e1e5e9";
+
+      // Validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+      let isValid = true;
+
+      if (username.includes('@') && !emailPattern.test(username)) {
+        usernameError.textContent = "Please enter a valid email address.";
+        usernameError.style.display = "block";
+        usernameInput.style.borderColor = "#dc3545";
+        isValid = false;
       }
-    }
 
-    function handleAdminLogin(event) {
-      event.preventDefault();
-      const username = document.getElementById("admin-username").value;
-      const password = document.getElementById("admin-password").value;
-
-      if (username && password) {
-        showToast("Admin login successful!");
-
-        // Clear localStorage to remove previous user data on new login
-        localStorage.clear();
-
-        // Simulate delay before redirect
-        setTimeout(() => {
-          window.location.href = "admin-dashboard.html"; // Redirect to dashboard
-        }, 3000);
-      } else {
-        alert("Please enter all credentials.");
+      if (!passwordPattern.test(password)) {
+        passwordError.textContent = "Password must be at least 8 characters and include letters and numbers.";
+        passwordError.style.display = "block";
+        passwordInput.style.borderColor = "#dc3545";
+        isValid = false;
       }
+
+      if (!isValid) {
+        return false;
+      }
+
+      try {
+        // Show loading state
+        const originalText = loginBtn.innerHTML;
+        loginBtn.innerHTML = '<div class="loading"></div> Authenticating...';
+        loginBtn.disabled = true;
+
+        // Call the backend API
+        const response = await fetch('http://localhost:8080/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Check if user is admin
+          if (data.user && data.user.role === 'admin') {
+            // Login successful
+            successMessage.innerHTML = `<i class="fas fa-check-circle"></i> ${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} login successful! Redirecting...`;
+            successMessage.style.display = "block";
+            
+            // Store token and role
+            if (data.token) {
+              localStorage.setItem('polis_token', data.token);
+              localStorage.setItem('user_data', JSON.stringify(data.user));
+              localStorage.setItem('admin_role', selectedRole);
+            }
+
+            setTimeout(() => {
+              window.location.href = "admin-dashboard.html";
+            }, 2000);
+          } else {
+            // User is not admin
+            passwordError.textContent = "Access denied. Admin privileges required.";
+            passwordError.style.display = "block";
+            passwordInput.style.borderColor = "#dc3545";
+          }
+        } else {
+          // Login failed
+          if (data.error && data.error.includes('credentials')) {
+            passwordError.textContent = "Invalid admin credentials.";
+            passwordError.style.display = "block";
+            passwordInput.style.borderColor = "#dc3545";
+          } else {
+            alert(data.error || 'Login failed. Please try again.');
+          }
+        }
+      } catch (error) {
+        console.error('Admin login error:', error);
+        alert('Network error. Please check your connection and try again.');
+      } finally {
+        // Reset button
+        loginBtn.innerHTML = originalText;
+        loginBtn.disabled = false;
+      }
+
+      return false;
     }
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2500);
-    }
-
-    window.onload = updateUsernamePlaceholder;
   </script>
-
 </body>
 </html>
