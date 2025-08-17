@@ -1,0 +1,15 @@
+{
+  "name": "polis-project",
+  "version": "1.0.0",
+  "description": "POLIS Police Case Management System",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-deps": "cd backend && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["police", "case-management", "express", "nodejs"],
+  "author": "POLIS Team",
+  "license": "MIT"
+}
