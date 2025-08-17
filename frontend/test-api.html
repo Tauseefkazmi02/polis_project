@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - POLIS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>POLIS API Connection Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Health Check</h2>
+        <button onclick="testHealth()">Test Health Endpoint</button>
+        <div id="health-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Admin Login Test</h2>
+        <button onclick="testAdminLogin()">Test Admin Login</button>
+        <div id="login-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. User Registration Test</h2>
+        <button onclick="testRegistration()">Test User Registration</button>
+        <div id="registration-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Connection Status</h2>
+        <div id="connection-status" class="info">Checking connection...</div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function testHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.innerHTML = '<span class="info">Testing...</span>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<span class="success">✅ Health check passed!</span><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Health check failed: ${response.status}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Connection error: ${error.message}</span>`;
+            }
+        }
+
+        async function testAdminLogin() {
+            const resultDiv = document.getElementById('login-result');
+            resultDiv.innerHTML = '<span class="info">Testing admin login...</span>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: 'admin123'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<span class="success">✅ Admin login successful!</span><pre>User: ${data.user.username} (${data.user.role})</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Login failed: ${data.error}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Connection error: ${error.message}</span>`;
+            }
+        }
+
+        async function testRegistration() {
+            const resultDiv = document.getElementById('registration-result');
+            resultDiv.innerHTML = '<span class="info">Testing user registration...</span>';
+            
+            const testUser = {
+                username: `testuser_${Date.now()}`,
+                email: `test_${Date.now()}@example.com`,
+                password: 'password123',
+                full_name: 'Test User',
+                phone: '1234567890'
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testUser)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<span class="success">✅ Registration successful!</span><pre>User: ${data.user.username} (${data.user.role})</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Registration failed: ${data.error}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Connection error: ${error.message}</span>`;
+            }
+        }
+
+        // Check connection status on page load
+        window.onload = async function() {
+            const statusDiv = document.getElementById('connection-status');
+            
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (response.ok) {
+                    statusDiv.innerHTML = '<span class="success">✅ Backend server is running and accessible!</span>';
+                } else {
+                    statusDiv.innerHTML = '<span class="error">❌ Backend server responded with an error</span>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Cannot connect to backend server. Make sure the server is running on port 8080.</span>';
+            }
+        };
+    </script>
+</body>
+</html>
