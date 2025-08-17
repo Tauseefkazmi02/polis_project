@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration - POLICE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 20px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.1rem;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: #ffdd57;
+    }
+
+    .form-container {
+      background-color: #fff;
+      max-width: 420px;
+      margin: 40px auto;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+      display: none;
+    }
+
+    #strength-bar {
+      height: 8px;
+      margin-top: -8px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      background-color: #e0e0e0;
+      overflow: hidden;
+    }
+
+    .strength {
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .weak { background-color: red; width: 33%; }
+    .medium { background-color: orange; width: 66%; }
+    .strong { background-color: green; width: 100%; }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to POLIS</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="login.html">User Login</a>
+      <a href="admin-login.html">Admin Login</a>
+      <a href="registration.html">Register</a>
+      <a href="contact_us.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="form-container">
+      <form id="registration-form" onsubmit="return handleRegistration(event)">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="date" id="dob" placeholder="Date of Birth" required>
+        <input type="number" id="age" placeholder="Age" required readonly>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <div class="error" id="email-error">Invalid email format.</div>
+        <input type="tel" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
+        <input type="text" id="username" placeholder="Username" required>
+
+        <input type="password" id="password" placeholder="Password" required>
+        <div id="strength-bar"><div id="strength" class="strength"></div></div>
+
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+        <div class="error" id="password-error">Passwords do not match.</div>
+
+        <button type="submit">Register</button>
+        <p style="text-align:center;">Already have an account? <a href="login.html">Login here</a></p>
+        <div class="message" id="success-message">🎉 Registration successful! Redirecting...</div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 POLICE Platform. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const dobInput = document.getElementById("dob");
+    const ageInput = document.getElementById("age");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm-password");
+    const passwordError = document.getElementById("password-error");
+    const successMessage = document.getElementById("success-message");
+    const strengthBar = document.getElementById("strength");
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("email-error");
+
+    dobInput.addEventListener("change", () => {
+      const dob = new Date(dobInput.value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      ageInput.value = age;
+    });
+
+    confirmPasswordInput.addEventListener("input", () => {
+      passwordError.style.display = (passwordInput.value !== confirmPasswordInput.value) ? "block" : "none";
+    });
+
+    emailInput.addEventListener("input", () => {
+      const pattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      emailError.style.display = pattern.test(emailInput.value) ? "none" : "block";
+    });
+
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      let strength = "weak";
+      if (val.length >= 6 && /[A-Z]/.test(val) && /\d/.test(val)) {
+        strength = "medium";
+      }
+      if (val.length >= 8 && /[A-Z]/.test(val) && /[a-z]/.test(val) && /\d/.test(val) && /[@$!%*?&]/.test(val)) {
+        strength = "strong";
+      }
+      strengthBar.className = `strength ${strength}`;
+    });
+
+    function handleRegistration(event) {
+      event.preventDefault();
+
+      const email = emailInput.value.trim();
+      const username = document.getElementById("username").value.trim();
+      const password = passwordInput.value;
+
+      if (!email || emailError.style.display === "block") {
+        alert("Please enter a valid email address.");
+        return false;
+      }
+
+      if (password !== confirmPasswordInput.value) {
+        passwordError.style.display = "block";
+        return false;
+      }
+
+      // Store in localStorage
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password); // ⚠️ Only for demo. Avoid storing raw passwords in production.
+
+      successMessage.style.display = "block";
+
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+      return false;
+    }
+  </script>
+</body>
+</html>
