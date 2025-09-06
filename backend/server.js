@@ -2,16 +2,19 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: './config.env' });
+
+// Import database connection
+const db = require('./database/database');
 
 // Import route modules
 const authRoutes = require('./routes/auth');
 const caseRoutes = require('./routes/cases');
 const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin');
+const documentRoutes = require('./routes/documents');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(helmet());
@@ -22,14 +25,15 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from the parent directory (frontend files)
-app.use(express.static(path.join(__dirname, '..')));
+// Serve static files from frontend
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/cases', caseRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/documents', documentRoutes);
 
 // Basic routes for testing
 app.get('/hello', (req, res) => {
@@ -44,17 +48,15 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Serve the main HTML files
+// Serve main frontend html files
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'home.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'home.html'));
 });
-
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'login.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'login.html'));
 });
-
 app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'dashboard.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'dashboard.html'));
 });
 
 // Error handling middleware
@@ -69,13 +71,6 @@ app.use((err, req, res, next) => {
 // 404 handler
 app.use('*', (req, res) => {
     res.status(404).json({ error: 'Route not found' });
-});
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚔 POLIS Server running on port ${PORT}`);
-    console.log(`📱 Frontend available at: http://localhost:${PORT}`);
-    console.log(`🔗 API available at: http://localhost:${PORT}/api`);
 });
 
 module.exports = app;
