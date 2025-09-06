@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "e5a7b8c9-d0e1-4f2f-8a3b-6c7d8e9f0a1b",
+		"name": "POLIS API Collection",
+		"description": "API collection for the POLIS (Police Investigation System) project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"officer1\",\n    \"email\": \"officer1@police.gov\",\n    \"password\": \"password123\",\n    \"full_name\": \"John Officer\",\n    \"phone\": \"1234567890\",\n    \"badge_number\": \"PO12345\",\n    \"department\": \"Criminal Investigation\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new user in the POLIS system"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"officer1\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login to the POLIS system and get an authentication token"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for the POLIS system"
+		},
+		{
+			"name": "Cases",
+			"item": [
+				{
+					"name": "Get All Cases",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/cases",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cases"
+							]
+						},
+						"description": "Get all cases (requires authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Register New Case",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"caseNumber\": \"CASE-2024-001\",\n    \"title\": \"Robbery at Main Street\",\n    \"description\": \"Armed robbery at 123 Main Street\",\n    \"crimeType\": \"Robbery\",\n    \"location\": \"123 Main Street, City\",\n    \"incidentDate\": \"2024-01-15\",\n    \"reportDate\": \"2024-01-15\",\n    \"priority\": \"High\",\n    \"status\": \"Open\",\n    \"complainant\": {\n        \"name\": \"Jane Citizen\",\n        \"email\": \"jane@example.com\",\n        \"phone\": \"9876543210\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cases",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cases"
+							]
+						},
+						"description": "Register a new case in the POLIS system (requires authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Case by Number",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/cases/CASE-2024-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cases",
+								"CASE-2024-001"
+							]
+						},
+						"description": "Get a specific case by its case number (requires authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Case Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"In Progress\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/cases/CASE-2024-001/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"cases",
+								"CASE-2024-001",
+								"status"
+							]
+						},
+						"description": "Update the status of a specific case (requires authentication)"
+					},
+					"response": []
+				}
+			],
+			"description": "Case management endpoints for the POLIS system"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Get all users (admin only)"
+					},
+					"response": []
+				}
+			],
+			"description": "User management endpoints for the POLIS system"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-save auth token from login response",
+					"if (pm.response.code === 200 && pm.request.url.toString().includes('/api/auth/login')) {",
+					"    var jsonData = pm.response.json();",
+					"    if (jsonData.token) {",
+					"        pm.environment.set('auth_token', jsonData.token);",
+					"        console.log('Auth token saved to environment variable');",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_token",
+			"value": ""
+		}
+	]
+}
