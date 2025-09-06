@@ -151,32 +151,44 @@
   </header>
 
   <main>
-    <h2>Your Case Details</h2>
+    <h2>User Dashboard</h2>
 
     <section class="details-section">
-      <h3>Case ID</h3>
-      <p id="case-id">Loading...</p>
+      <h3>Your Cases</h3>
+      <div id="cases-container">
+        <p id="loading-cases">Loading cases...</p>
+        <div id="no-cases" style="display: none;">No cases found. <a href="personal-details.html">Register a new case</a></div>
+        <table id="cases-table" style="display: none;">
+          <thead>
+            <tr>
+              <th>Case Number</th>
+              <th>Title</th>
+              <th>Crime Type</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Date Reported</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="cases-list">
+            <!-- Cases will be loaded here dynamically -->
+          </tbody>
+        </table>
+      </div>
+      <div class="action-buttons">
+        <a href="personal-details.html" class="btn btn-primary">Register New Case</a>
+
+      </div>
     </section>
 
     <section class="details-section">
-      <h3>Personal Details</h3>
-      <ul id="personal-details-list" class="details-list">
-        <li>Loading...</li>
-      </ul>
-    </section>
-
-    <section class="details-section">
-      <h3>Crime Details</h3>
-      <ul id="crime-details-list" class="details-list">
-        <li>Loading...</li>
-      </ul>
-    </section>
-
-    <section class="details-section">
-      <h3>Document Uploads</h3>
-      <ul id="document-upload-list" class="details-list">
-        <li>Loading...</li>
-      </ul>
+      <h3>Case Details</h3>
+      <div id="case-details-container">
+        <p id="select-case-message">Select a case to view details</p>
+        <div id="case-details" style="display: none;">
+          <!-- Case details will be loaded here dynamically -->
+        </div>
+      </div>
     </section>
   </main>
 
