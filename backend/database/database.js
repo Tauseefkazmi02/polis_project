@@ -26,8 +26,7 @@ function initializeDatabase() {
         full_name TEXT NOT NULL,
         phone TEXT,
         role TEXT DEFAULT 'user',
-        badge_number TEXT,
-        department TEXT,
+        dob DATE,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`, function(err) {
@@ -117,9 +116,9 @@ function createDefaultAdmin() {
         }
         
         if (!row) {
-            db.run(`INSERT INTO users (username, email, password, full_name, role, badge_number, department) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)`,
-                ['admin', 'admin@polis.com', adminPassword, 'System Administrator', 'admin', 'ADM001', 'IT Department'],
+            db.run(`INSERT INTO users (username, email, password, full_name, role, dob) 
+                    VALUES (?, ?, ?, ?, ?, ?)`,
+                ['admin', 'admin@polis.com', adminPassword, 'System Administrator', 'admin', '2000-01-01'],
                 function(err) {
                     if (err) {
                         console.error('Error creating admin user:', err);
