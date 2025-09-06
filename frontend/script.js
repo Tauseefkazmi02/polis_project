@@ -7,6 +7,11 @@ let authToken = localStorage.getItem('polis_token');
 // API Base URL
 const API_BASE_URL = 'http://localhost:8080/api';
 
+// Check if user is authenticated on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthentication();
+});
+
 // Utility functions
 function showMessage(message, type = 'info') {
     const messageDiv = document.getElementById('message');
@@ -71,6 +76,7 @@ async function loginUser(username, password) {
 
         setAuthToken(response.token);
         currentUser = response.user;
+        localStorage.setItem('currentUser', JSON.stringify(response.user));
         
         showMessage('Login successful!', 'success');
         
@@ -94,11 +100,254 @@ async function registerUser(userData) {
 
         setAuthToken(response.token);
         currentUser = response.user;
+        localStorage.setItem('currentUser', JSON.stringify(response.user));
         
         showMessage('Registration successful!', 'success');
         window.location.href = 'dashboard.html';
     } catch (error) {
         showMessage(error.message, 'error');
+    }
+}
+
+function checkAuthentication() {
+    const token = localStorage.getItem('authToken');
+    const user = localStorage.getItem('currentUser');
+    
+    if (token && user) {
+        authToken = token;
+        currentUser = JSON.parse(user);
+        
+        // Update UI based on authentication status
+        const authLinks = document.querySelectorAll('.auth-link');
+        const userLinks = document.querySelectorAll('.user-link');
+        
+        if (authLinks && userLinks) {
+            authLinks.forEach(link => link.style.display = 'none');
+            userLinks.forEach(link => link.style.display = 'block');
+        }
+        
+        // Set user name if element exists
+        const userNameElement = document.getElementById('user-name');
+        if (userNameElement && currentUser) {
+            userNameElement.textContent = currentUser.username;
+        }
+        
+        return true;
+    }
+    
+    return false;
+}
+
+// Case management functions
+async function registerCase(caseData) {
+    try {
+        const response = await apiCall('/cases', {
+            method: 'POST',
+            body: JSON.stringify(caseData)
+        });
+        
+        showMessage('Case registered successfully!', 'success');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 2000);
+        return response;
+    } catch (error) {
+        showMessage(error.message, 'error');
+        throw error;
+    }
+}
+
+async function getCaseByNumber(caseNumber) {
+    try {
+        return await apiCall(`/cases/${caseNumber}`);
+    } catch (error) {
+        showMessage(error.message, 'error');
+        throw error;
+    }
+}
+
+async function getAllCases() {
+    try {
+        return await apiCall('/cases');
+    } catch (error) {
+        showMessage(error.message, 'error');
+        throw error;
+    }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Case registration form handler
+    const caseForm = document.getElementById('caseRegistrationForm');
+    if (caseForm) {
+        caseForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!isAuthenticated()) {
+                showMessage('You must be logged in to register a case', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+            
+            const formData = new FormData(caseForm);
+            const caseData = {};
+            
+            for (const [key, value] of formData.entries()) {
+                caseData[key] = value;
+            }
+            
+            try {
+                await registerCase(caseData);
+            } catch (error) {
+                console.error('Error registering case:', error);
+            }
+        });
+    }
+    
+    // Dashboard cases loading
+    const casesContainer = document.getElementById('cases-container');
+    if (casesContainer) {
+        loadDashboardCases();
+    }
+});
+
+// Dashboard functions
+async function loadDashboardCases() {
+    const loadingElement = document.getElementById('loading-cases');
+    const noCasesElement = document.getElementById('no-cases');
+    const casesTable = document.getElementById('cases-table');
+    const casesList = document.getElementById('cases-list');
+    
+    if (!isAuthenticated()) {
+        showMessage('You must be logged in to view cases', 'error');
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
+        return;
+    }
+    
+    try {
+        const cases = await getAllCases();
+        
+        // Hide loading message
+        loadingElement.style.display = 'none';
+        
+        if (!cases || cases.length === 0) {
+            noCasesElement.style.display = 'block';
+            return;
+        }
+        
+        // Show cases table and populate it
+        casesTable.style.display = 'table';
+        
+        // Clear existing cases
+        casesList.innerHTML = '';
+        
+        // Add each case to the table
+        cases.forEach(caseItem => {
+            const row = document.createElement('tr');
+            
+            // Format date
+            const reportedDate = new Date(caseItem.date_reported);
+            const formattedDate = reportedDate.toLocaleDateString() + ' ' + reportedDate.toLocaleTimeString();
+            
+            row.innerHTML = `
+                <td>${caseItem.case_number}</td>
+                <td>${caseItem.title}</td>
+                <td>${caseItem.crime_type}</td>
+                <td><span class="status-badge status-${caseItem.status}">${caseItem.status}</span></td>
+                <td><span class="priority-badge priority-${caseItem.priority}">${caseItem.priority}</span></td>
+                <td>${formattedDate}</td>
+                <td>
+                    <button class="btn btn-view" onclick="viewCaseDetails('${caseItem.case_number}')">View</button>
+                </td>
+            `;
+            
+            casesList.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error loading cases:', error);
+        loadingElement.textContent = 'Error loading cases. Please try again.';
+    }
+}
+
+async function viewCaseDetails(caseNumber) {
+    const selectCaseMessage = document.getElementById('select-case-message');
+    const caseDetailsContainer = document.getElementById('case-details');
+    
+    try {
+        const caseData = await getCaseByNumber(caseNumber);
+        
+        // Hide select message and show details
+        selectCaseMessage.style.display = 'none';
+        caseDetailsContainer.style.display = 'block';
+        
+        // Format dates
+        const reportedDate = new Date(caseData.date_reported);
+        const formattedReportedDate = reportedDate.toLocaleDateString() + ' ' + reportedDate.toLocaleTimeString();
+        
+        let formattedOccurredDate = 'Not specified';
+        if (caseData.date_occurred) {
+            const occurredDate = new Date(caseData.date_occurred);
+            formattedOccurredDate = occurredDate.toLocaleDateString() + ' ' + occurredDate.toLocaleTimeString();
+        }
+        
+        // Populate case details
+        caseDetailsContainer.innerHTML = `
+            <div class="case-detail-grid">
+                <div class="detail-item">
+                    <h4>Case Number</h4>
+                    <p>${caseData.case_number}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Title</h4>
+                    <p>${caseData.title}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Status</h4>
+                    <p><span class="status-badge status-${caseData.status}">${caseData.status}</span></p>
+                </div>
+                <div class="detail-item">
+                    <h4>Priority</h4>
+                    <p><span class="priority-badge priority-${caseData.priority}">${caseData.priority}</span></p>
+                </div>
+                <div class="detail-item">
+                    <h4>Crime Type</h4>
+                    <p>${caseData.crime_type}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Location</h4>
+                    <p>${caseData.location || 'Not specified'}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Date Reported</h4>
+                    <p>${formattedReportedDate}</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Date Occurred</h4>
+                    <p>${formattedOccurredDate}</p>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h4>Description</h4>
+                <p>${caseData.description}</p>
+            </div>
+            
+            <div class="detail-section">
+                <h4>Complainant Information</h4>
+                <p><strong>Name:</strong> ${caseData.complainant_name}</p>
+                <p><strong>Email:</strong> ${caseData.complainant_email}</p>
+                <p><strong>Phone:</strong> ${caseData.complainant_phone}</p>
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error loading case details:', error);
+        caseDetailsContainer.innerHTML = '<p class="error">Error loading case details. Please try again.</p>';
+        caseDetailsContainer.style.display = 'block';
+        selectCaseMessage.style.display = 'none';
     }
 }
 
