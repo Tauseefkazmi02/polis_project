@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Reset */
     * {
       margin: 0;
       padding: 0;
@@ -106,17 +107,45 @@
       }
     }
 
-    /* Login Container */
-    .login-container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
+    /* Card styles */
+    .card {
+      background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+      border-radius: 22px;
+      transition: all 0.3s;
+      padding: 0.5rem;
+      box-sizing: border-box;
+      z-index: 5;
+      /* To position above bg animation */
+      box-shadow: 0 0 30px 1px rgba(0, 255, 117, 0.3);
+    }
+
+    .card2 {
+      border-radius: 0;
+      transition: all 0.2s;
+      background: transparent;
+    }
+
+    .card2:hover {
+      transform: scale(0.98);
       border-radius: 20px;
-      padding: 3rem;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 30px 6px rgba(0, 255, 117, 0.5);
+    }
+
+    /* Login Container - dark style inside card */
+    .login-container {
+      background-color: #171717 !important;
+      backdrop-filter: none !important;
+      box-shadow: inset 2px 5px 10px rgb(5 5 5 / 0.9) !important;
+      padding: 2rem !important;
       width: 100%;
-      max-width: 450px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      max-width: 400px !important;
+      border-radius: 20px;
       position: relative;
-      z-index: 2;
+      z-index: 10;
+      color: white !important;
       animation: slideUp 0.6s ease-out;
     }
 
@@ -136,16 +165,9 @@
       margin-bottom: 2rem;
     }
 
-    .login-header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 0.5rem;
-    }
-
+    .login-header h1,
     .login-header p {
-      color: #666;
-      font-size: 0.95rem;
+      color: white !important;
     }
 
     /* Form Styles */
@@ -158,7 +180,7 @@
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
-      color: #333;
+      color: white !important;
       font-size: 0.9rem;
     }
 
@@ -168,18 +190,24 @@
 
     .form-group input {
       width: 100%;
-      padding: 1rem 1rem 1rem 3rem;
-      border: 2px solid #e1e5e9;
+      padding: 1rem 1rem 1rem 2.5rem;
+      border: none !important;
       border-radius: 12px;
       font-size: 1rem;
       transition: all 0.3s ease;
-      background: white;
+      background: #171717 !important;
+      color: white !important;
+      box-shadow: inset 2px 5px 10px rgb(5 5 5);
+    }
+
+    .form-group input::placeholder {
+      color: #777;
     }
 
     .form-group input:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      box-shadow: inset 2px 5px 15px rgba(0, 255, 117, 0.6);
+      background: #1c1c1c !important;
     }
 
     .input-icon {
@@ -187,12 +215,12 @@
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      color: #999;
+      color: white !important;
       transition: color 0.3s ease;
     }
 
     .form-group input:focus + .input-icon {
-      color: #667eea;
+      color: #00ff75 !important;
     }
 
     .password-toggle {
@@ -202,19 +230,19 @@
       transform: translateY(-50%);
       background: none;
       border: none;
-      color: #999;
+      color: #ccc !important;
       cursor: pointer;
       font-size: 1.1rem;
       transition: color 0.3s ease;
     }
 
     .password-toggle:hover {
-      color: #667eea;
+      color: #00ff75 !important;
     }
 
     /* Error Messages */
     .error-message {
-      color: #dc3545;
+      color: #ff5252 !important;
       font-size: 0.85rem;
       margin-top: 0.5rem;
       display: none;
@@ -243,15 +271,15 @@
     .remember-me label {
       margin: 0;
       font-size: 0.9rem;
-      color: #666;
+      color: #ccc !important;
     }
 
     /* Buttons */
     .btn {
       width: 100%;
-      padding: 1rem;
+      padding: 0.6em 1.5em;
       border: none;
-      border-radius: 12px;
+      border-radius: 5px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
@@ -260,34 +288,37 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      box-shadow: none !important;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
+      background-color: #252525 !important;
+      color: white !important;
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      background-color: black !important;
+      color: white !important;
+      transform: none !important;
+      box-shadow: none !important;
     }
 
     .btn-primary:disabled {
       opacity: 0.7;
       cursor: not-allowed;
-      transform: none;
     }
 
     .btn-secondary {
-      background: #f8f9fa;
-      color: #333;
-      border: 2px solid #e1e5e9;
+      background-color: #252525 !important;
+      color: white !important;
       margin-top: 1rem;
     }
 
     .btn-secondary:hover {
-      background: #e9ecef;
-      transform: translateY(-2px);
+      background-color: black !important;
+      color: white !important;
+      transform: none !important;
+      box-shadow: none !important;
     }
 
     /* Success Message */
@@ -320,19 +351,19 @@
     }
 
     .links a {
-      color: #667eea;
+      color: #00ff75 !important;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s ease;
     }
 
     .links a:hover {
-      color: #764ba2;
+      color: #3700ff !important;
     }
 
     .links p {
       margin-bottom: 0.5rem;
-      color: #666;
+      color: #ccc !important;
     }
 
     /* Divider */
@@ -348,18 +379,19 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: #e1e5e9;
+      background: #333;
     }
 
     .divider span {
       padding: 0 1rem;
       font-size: 0.9rem;
+      color: #ccc;
     }
 
     /* Responsive */
     @media (max-width: 480px) {
       .login-container {
-        padding: 2rem;
+        padding: 1.5rem !important;
         margin: 1rem;
       }
 
@@ -408,184 +440,142 @@
     <a href="contact_us.html">Contact</a>
   </div>
 
-  <!-- Login Container -->
-  <div class="login-container">
-    <div class="login-header">
-      <h1>Welcome Back</h1>
-      <p>Sign in to your POLIS account</p>
-    </div>
-
-    <!-- Success Message -->
-    <div id="success-message" class="success-message">
-      <i class="fas fa-check-circle"></i>
-      Login successful! Redirecting...
-    </div>
-
-    <form id="login-form" onsubmit="return handleLogin(event)">
-      <div class="form-group">
-        <label for="username">Username or Email</label>
-        <div class="input-wrapper">
-          <input type="text" id="username" placeholder="Enter your username or email" required />
-          <i class="fas fa-user input-icon"></i>
+  <!-- Card Wrapping Login Container -->
+  <div class="card">
+    <div class="card2">
+      <div class="login-container">
+        <div class="login-header">
+          <h1>Welcome Back</h1>
+          <p>Sign in to your POLIS account</p>
         </div>
-        <div id="username-error" class="error-message"></div>
-      </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="input-wrapper">
-          <input type="password" id="password" placeholder="Enter your password" required />
-          <i class="fas fa-lock input-icon"></i>
-          <button type="button" class="password-toggle" onclick="togglePassword()">
-            <i class="fas fa-eye" id="toggle-icon"></i>
+        <!-- Success Message -->
+        <div id="success-message" class="success-message">
+          <i class="fas fa-check-circle"></i>
+          Login successful! Redirecting...
+        </div>
+
+        <form id="login-form" onsubmit="return handleLogin(event)">
+          <div class="form-group">
+            <label for="username">Username or Email</label>
+            <div class="input-wrapper">
+              <input type="text" id="username" placeholder="Enter your username or email" required />
+              <i class="fas fa-user input-icon"></i>
+            </div>
+            <div id="username-error" class="error-message"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" placeholder="Enter your password" required />
+              <i class="fas fa-lock input-icon"></i>
+              <button type="button" class="password-toggle" onclick="togglePassword()">
+                <i class="fas fa-eye" id="toggle-icon"></i>
+              </button>
+            </div>
+            <div id="password-error" class="error-message"></div>
+          </div>
+
+          <div class="remember-me">
+            <input type="checkbox" id="remember-me" />
+            <label for="remember-me">Remember me</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="login-btn">
+            <i class="fas fa-sign-in-alt"></i>
+            Sign In
           </button>
+
+          <div class="divider">
+            <span>or</span>
+          </div>
+
+          <button type="button" class="btn btn-secondary" onclick="alert('OTP feature coming soon!')">
+            <i class="fas fa-mobile-alt"></i>
+            Login with OTP
+          </button>
+        </form>
+
+        <div class="links">
+          <p>Don't have an account? <a href="registration.html">Register here</a></p>
+          <p><a href="forgot-password.html">Forgot Password?</a></p>
         </div>
-        <div id="password-error" class="error-message"></div>
       </div>
-
-      <div class="remember-me">
-        <input type="checkbox" id="remember-me" />
-        <label for="remember-me">Remember me</label>
-      </div>
-
-      <button type="submit" class="btn btn-primary" id="login-btn">
-        <i class="fas fa-sign-in-alt"></i>
-        Sign In
-      </button>
-
-      <div class="divider">
-        <span>or</span>
-      </div>
-
-      <button type="button" class="btn btn-secondary" onclick="alert('OTP feature coming soon!')">
-        <i class="fas fa-mobile-alt"></i>
-        Login with OTP
-      </button>
-    </form>
-
-    <div class="links">
-      <p>Don't have an account? <a href="registration.html">Register here</a></p>
-      <p><a href="forgot-password.html">Forgot Password?</a></p>
     </div>
   </div>
 
-  <script>
-    function togglePassword() {
-      const password = document.getElementById('password');
-      const toggleIcon = document.getElementById('toggle-icon');
-      
-      if (password.type === 'password') {
-        password.type = 'text';
-        toggleIcon.className = 'fas fa-eye-slash';
-      } else {
-        password.type = 'password';
-        toggleIcon.className = 'fas fa-eye';
-      }
+<script>
+  // Password toggle function
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggle-icon');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.classList.remove('fa-eye');
+      toggleIcon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.classList.remove('fa-eye-slash');
+      toggleIcon.classList.add('fa-eye');
+    }
+  }
+
+  // Simple form validation & success message simulation
+  function handleLogin(event) {
+    event.preventDefault();
+
+    // Clear previous errors
+    const usernameError = document.getElementById('username-error');
+    const passwordError = document.getElementById('password-error');
+    usernameError.style.display = 'none';
+    passwordError.style.display = 'none';
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    let valid = true;
+
+    if (username.length < 3) {
+      usernameError.textContent = 'Please enter a valid username or email.';
+      usernameError.style.display = 'block';
+      valid = false;
+    }
+    if (password.length < 6) {
+      passwordError.textContent = 'Password must be at least 6 characters.';
+      passwordError.style.display = 'block';
+      valid = false;
     }
 
-    async function handleLogin(event) {
-      event.preventDefault();
-      
-      const usernameInput = document.getElementById("username");
-      const passwordInput = document.getElementById("password");
-      const usernameError = document.getElementById("username-error");
-      const passwordError = document.getElementById("password-error");
-      const successMessage = document.getElementById("success-message");
-      const loginBtn = document.getElementById("login-btn");
-
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value;
-
-      // Reset error messages
-      usernameError.style.display = "none";
-      passwordError.style.display = "none";
-      successMessage.style.display = "none";
-      usernameInput.style.borderColor = "#e1e5e9";
-      passwordInput.style.borderColor = "#e1e5e9";
-
-      // Validation
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
-
-      let isValid = true;
-
-      if (username.includes('@') && !emailPattern.test(username)) {
-        usernameError.textContent = "Please enter a valid email address.";
-        usernameError.style.display = "block";
-        usernameInput.style.borderColor = "#dc3545";
-        isValid = false;
-      }
-
-      if (!passwordPattern.test(password)) {
-        passwordError.textContent = "Password must be at least 8 characters and include letters and numbers.";
-        passwordError.style.display = "block";
-        passwordInput.style.borderColor = "#dc3545";
-        isValid = false;
-      }
-
-      if (!isValid) {
-        return false;
-      }
-
-      try {
-        // Show loading state
-        const originalText = loginBtn.innerHTML;
-        loginBtn.innerHTML = '<div class="loading"></div> Signing In...';
-        loginBtn.disabled = true;
-
-        // Call the backend API
-        const response = await fetch('http://localhost:8080/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password
-          })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          // Login successful
-          successMessage.style.display = "block";
-          
-          // Store token
-          if (data.token) {
-            localStorage.setItem('polis_token', data.token);
-            localStorage.setItem('user_data', JSON.stringify(data.user));
-          }
-
-          setTimeout(() => {
-            // Redirect based on user role
-            if (data.user && data.user.role === 'admin') {
-              window.location.href = "admin-dashboard.html";
-            } else {
-              window.location.href = "dashboard.html";
-            }
-          }, 2000);
-        } else {
-          // Login failed
-          if (data.error && data.error.includes('credentials')) {
-            passwordError.textContent = "Invalid username or password.";
-            passwordError.style.display = "block";
-            passwordInput.style.borderColor = "#dc3545";
-          } else {
-            alert(data.error || 'Login failed. Please try again.');
-          }
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('Network error. Please check your connection and try again.');
-      } finally {
-        // Reset button
-        loginBtn.innerHTML = originalText;
-        loginBtn.disabled = false;
-      }
-
+    if (!valid) {
       return false;
     }
-  </script>
+
+    // Disable button and show loading
+    const loginBtn = document.getElementById('login-btn');
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = '<span class="loading"></span> Signing in...';
+
+    // Simulate server login delay
+    setTimeout(() => {
+      // Show success message
+      const successMessage = document.getElementById('success-message');
+      successMessage.style.display = 'block';
+
+      // Reset form button
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+
+      // Clear form (optional)
+      // document.getElementById('login-form').reset();
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        window.location.href = 'dashboard.html'; // Change to your dashboard page
+      }, 2000);
+    }, 1500);
+
+    return false;
+  }
+</script>
 </body>
 </html>
