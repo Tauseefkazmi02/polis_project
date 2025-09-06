@@ -4,379 +4,173 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>POLIS - Police Case Management System</title>
+  <meta name="description" content="POLIS - A secure police case management system for efficient investigations, case tracking, analytics, and collaboration.">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* 🌌 Animated Background Gradient Pulse */
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #333;
+      background: linear-gradient(-45deg, #132b45, #1b263b, #000000, #1a1a2e);
+      background-size: 400% 400%;
+      animation: gradientPulse 15s ease infinite;
+      color: #f0f0f0;
       min-height: 100vh;
       overflow-x: hidden;
+      opacity: 0;
+      animation: fadeZoomIn 2s ease-in-out forwards, gradientPulse 15s ease infinite;
+    }
+    @keyframes gradientPulse {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes fadeZoomIn {
+      0% { opacity: 0; background-size: 105%; }
+      100% { opacity: 1; background-size: 100%; }
     }
 
-    /* Header Styles */
+    /* 🔵🔴 Glowing Police Particles */
+    .particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: floatParticle 10s linear infinite;
+    }
+    @keyframes floatParticle {
+      from { transform: translateY(100vh) scale(0.5); opacity: 0.7; }
+      to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Header */
     header {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
       padding: 1rem 0;
       position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
+      top: 0; width: 100%; z-index: 1000;
       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      transition: background 0.3s ease, transform 0.3s ease;
     }
+    header.scrolled { background: rgba(255, 255, 255, 0.98); transform: translateY(-2px); }
 
     .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 0 2rem;
     }
-
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #667eea;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 1.8rem; font-weight: 700; color: #667eea;
       text-decoration: none;
+      animation: glow 2s infinite alternate;
     }
+    .logo i { font-size: 2rem; color: #764ba2; animation: spin 6s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+    @keyframes glow { from { text-shadow: 0 0 5px #667eea; } to { text-shadow: 0 0 20px #764ba2; } }
 
-    .logo i {
-      font-size: 2rem;
-      color: #764ba2;
-    }
-
-    nav {
-      display: flex;
-      gap: 2rem;
-    }
-
+    nav { display: flex; gap: 2rem; }
     nav a {
-      color: #333;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      position: relative;
+      color: #333; text-decoration: none; font-weight: 500;
+      padding: 0.5rem 1rem; border-radius: 8px;
+      transition: all 0.3s ease; position: relative;
     }
-
-    nav a:hover {
+    nav a::after {
+      content: ""; position: absolute; bottom: 0; left: 0;
+      width: 0%; height: 2px;
       background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      transform: translateY(-2px);
+      transition: width 0.3s ease;
     }
-
-    nav a.active {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-    }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: scale(1.05); }
+    nav a.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
 
     /* Mobile Menu */
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: #333;
-      cursor: pointer;
-    }
-
+    .mobile-menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: #333; cursor: pointer; }
     @media (max-width: 768px) {
-      .mobile-menu-toggle {
-        display: block;
-      }
-
-      nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        padding: 1rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      nav.show {
-        display: flex;
-      }
-
-      nav a {
-        text-align: center;
-        padding: 1rem;
-        border-radius: 8px;
-      }
+      .mobile-menu-toggle { display: block; }
+      nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.98); flex-direction: column; padding: 1rem; animation: fadeInDown 0.5s ease; }
+      nav.show { display: flex; }
+      nav a { text-align: center; padding: 1rem; }
     }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Hero Section */
+    /* Hero */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8rem 2rem 2rem;
-      position: relative;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 8rem 2rem 2rem; text-align: center; color: white; position: relative; overflow: hidden;
+      z-index: 2;
     }
-
-    .hero-content {
-      max-width: 1200px;
-      text-align: center;
-      color: white;
-    }
-
     .hero h1 {
-      font-size: 4rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
+      font-size: 3.5rem; font-weight: 700; margin-bottom: 1.5rem;
       background: linear-gradient(45deg, #fff, #f0f0f0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       animation: fadeInUp 1s ease;
     }
-
     .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
-      line-height: 1.6;
-      animation: fadeInUp 1s ease 0.2s both;
+      font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; line-height: 1.6;
+      animation: fadeInUp 1s ease 0.3s both;
     }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeInUp 1s ease 0.4s both;
-    }
-
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.6s both; }
     .btn {
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
+      padding: 1rem 2rem; border: none; border-radius: 50px;
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: all 0.3s ease; cursor: pointer;
     }
+    .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 25px rgba(102,126,234,0.4); }
+    .btn-secondary { background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.3); transform: translateY(-3px); }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
-    }
-
-    /* Features Section */
-    .features {
-      padding: 5rem 2rem;
-      background: white;
-    }
-
-    .features-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 3rem;
-      color: #333;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
+    /* 🌟 Neon Glow Border Animation for Feature Cards */
+    .features { padding: 5rem 2rem; background: #111; color: #fff; }
+    .section-title { text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem; }
+    .section-title::after { content: ''; width: 80px; height: 4px; background: linear-gradient(135deg, #667eea, #764ba2); display: block; margin: 1rem auto 0; border-radius: 2px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2rem; }
     .feature-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      transition: all 0.3s ease;
-      border: 1px solid #f0f0f0;
+      background: #1c1c1c; padding: 2rem; border-radius: 20px;
+      box-shadow: 0 0 10px rgba(102,126,234,0.2);
+      text-align: center; transition: transform 0.4s ease, box-shadow 0.4s ease;
+      border: 2px solid transparent;
+      background-clip: padding-box, border-box;
+      background-origin: border-box;
     }
-
     .feature-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 0 25px rgba(102,126,234,0.6);
+      border-image: linear-gradient(45deg, #667eea, #ff0000, #764ba2) 1;
+      animation: neonPulse 2s infinite;
     }
-
-    .feature-icon {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      font-size: 2rem;
-      color: white;
-    }
-
-    .feature-card h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #333;
-    }
-
-    .feature-card p {
-      color: #666;
-      line-height: 1.6;
+    @keyframes neonPulse {
+      0%, 100% { box-shadow: 0 0 10px #667eea, 0 0 20px #ff0000; }
+      50% { box-shadow: 0 0 20px #764ba2, 0 0 40px #667eea; }
     }
 
     /* Footer */
-    footer {
-      background: #333;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
+    footer { background: #000; color: #bbb; text-align: center; padding: 2rem 1rem; }
 
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero p {
-        font-size: 1.1rem;
-      }
-      
-      .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .header-container {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      
-      nav {
-        gap: 1rem;
-      }
-    }
-
-    /* Floating Elements */
-    .floating-shapes {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .shape {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .shape:nth-child(1) {
-      width: 80px;
-      height: 80px;
-      top: 20%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .shape:nth-child(2) {
-      width: 120px;
-      height: 120px;
-      top: 60%;
-      right: 10%;
-      animation-delay: 2s;
-    }
-
-    .shape:nth-child(3) {
-      width: 60px;
-      height: 60px;
-      bottom: 20%;
-      left: 20%;
-      animation-delay: 4s;
-    }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
   </style>
-  <script>
-    function toggleMobileMenu() {
-      const nav = document.getElementById('main-nav');
-      nav.classList.toggle('show');
-    }
-  </script>
 </head>
 <body>
+  <!-- 🔵🔴 Glowing Particles -->
+  <div class="particles"></div>
+
   <!-- Header -->
-  <header>
+  <header id="header">
     <div class="header-container">
-      <a href="home.html" class="logo">
-        <i class="fas fa-shield-alt"></i>
-        POLIS
-      </a>
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-        <i class="fas fa-bars"></i>
-      </button>
+      <a href="home.html" class="logo"><i class="fas fa-shield-alt"></i> POLIS</a>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
       <nav id="main-nav">
         <a href="home.html" class="active">Home</a>
         <a href="login.html">User Login</a>
@@ -387,92 +181,63 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero">
-    <div class="floating-shapes">
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-    </div>
-    
     <div class="hero-content">
       <h1>POLIS</h1>
       <p>Advanced Police Case Management System</p>
       <p>Streamline investigations, manage cases efficiently, and ensure justice with our comprehensive digital platform.</p>
-      
       <div class="hero-buttons">
-        <a href="registration.html" class="btn btn-primary">
-          <i class="fas fa-user-plus"></i>
-          Get Started
-        </a>
-        <a href="login.html" class="btn btn-secondary">
-          <i class="fas fa-sign-in-alt"></i>
-          Login
-        </a>
+        <a href="registration.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Get Started</a>
+        <a href="login.html" class="btn btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</a>
       </div>
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- Features -->
   <section class="features">
-    <div class="features-container">
-      <h2 class="section-title">Why Choose POLIS?</h2>
-      
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-search"></i>
-          </div>
-          <h3>Advanced Case Tracking</h3>
-          <p>Track cases from initial report to final resolution with detailed progress monitoring and status updates.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-users"></i>
-          </div>
-          <h3>Team Collaboration</h3>
-          <p>Enable seamless collaboration between officers, detectives, and administrative staff with real-time updates.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <h3>Analytics & Reports</h3>
-          <p>Generate comprehensive reports and analytics to identify patterns and improve investigative efficiency.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-lock"></i>
-          </div>
-          <h3>Secure & Compliant</h3>
-          <p>Bank-level security with role-based access control ensuring data protection and regulatory compliance.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-mobile-alt"></i>
-          </div>
-          <h3>Mobile Ready</h3>
-          <p>Access case information and updates on-the-go with our responsive mobile-friendly interface.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-clock"></i>
-          </div>
-          <h3>24/7 Availability</h3>
-          <p>Round-the-clock access to case information ensuring critical data is always available when needed.</p>
-        </div>
-      </div>
+    <h2 class="section-title">Why Choose POLIS?</h2>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-search"></i></div><h3>Advanced Case Tracking</h3><p>Track cases from initial report to final resolution with detailed monitoring and updates.</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-users"></i></div><h3>Team Collaboration</h3><p>Enable seamless collaboration between officers, detectives, and staff with real-time updates.</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><h3>Analytics & Reports</h3><p>Generate reports and analytics to identify patterns and improve investigative efficiency.</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-lock"></i></div><h3>Secure & Compliant</h3><p>Role-based access control ensuring data protection and regulatory compliance.</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile Ready</h3><p>Access case information on-the-go with our responsive mobile-friendly interface.</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>24/7 Availability</h3><p>Critical case data is always accessible, anytime and anywhere.</p></div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
     <p>&copy; 2024 POLIS Police Case Management System. All rights reserved.</p>
+    <p><a href="home.html">Home</a> | <a href="contact_us.html">Contact</a></p>
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    function toggleMobileMenu() {
+      document.getElementById('main-nav').classList.toggle('show');
+    }
+
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+
+    // 🌟 Floating Police Particles (Blue & Red)
+    const particlesContainer = document.querySelector('.particles');
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 8 + 5;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.background = Math.random() > 0.5 ? 'rgba(0, 123, 255, 0.8)' : 'rgba(255, 0, 0, 0.8)';
+      particle.style.animationDuration = `${Math.random() * 5 + 5}s`;
+      particlesContainer.appendChild(particle);
+    }
+  </script>
 </body>
 </html>
