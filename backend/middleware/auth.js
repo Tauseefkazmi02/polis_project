@@ -1,26 +1,22 @@
 const jwt = require('jsonwebtoken');
 
-const secretKey = 'your_secret_key'; // Replace with env variable in production
+module.exports = function(req, res, next) {
+    // Get token from header
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.sendStatus(401);
-
-  jwt.verify(token, secretKey, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
-}
-
-function authorizeRoles(...roles) {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ error: 'Access denied' });
+    // Check if no token
+    if (!token) {
+        return res.status(401).json({ error: 'No token, authorization denied' });
     }
-    next();
-  };
-}
 
-module.exports = { authenticateToken, authorizeRoles, secretKey };
+    try {
+        // Verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        // Add user from payload
+        req.user = decoded.user;
+        next();
+    } catch (err) {
+        res.status(401).json({ error: 'Token is not valid' });
+    }
+};
