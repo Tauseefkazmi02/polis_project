@@ -6,134 +6,76 @@
   <title>Dashboard - POLICE</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f0f4f8;
-      color: #333;
-      line-height: 1.6;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background-color: #f0f4f8; color: #333; line-height: 1.6; }
 
     header {
-      background-color: #000;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background-color: #000; color: white; padding: 20px; text-align: center;
+      position: sticky; top: 0; z-index: 100;
     }
+    header h1 { margin-bottom: 10px; }
 
-    header h1 {
-      margin-bottom: 10px;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
+    nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
     nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 5px;
+      color: #fff; text-decoration: none; padding: 10px 16px; border-radius: 5px;
       transition: background-color 0.3s, transform 0.2s;
     }
-
-    nav a:hover {
-      background-color: #1e90ff;
-      transform: scale(1.05);
-    }
+    nav a:hover { background-color: #1e90ff; transform: scale(1.05); }
 
     main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      animation: fadeIn 1s ease-in;
-      text-align: left;
+      max-width: 900px; margin: 40px auto; padding: 20px;
+      background-color: #fff; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in; text-align: left;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
-      color: #007bff;
-    }
+    h2 { text-align: center; margin-bottom: 20px; font-weight: 600; color: #007bff; }
 
     section.details-section {
-      background-color: #f9f9f9;
-      padding: 20px 25px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
+      background-color: #f9f9f9; padding: 20px 25px;
+      border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-bottom: 30px;
     }
 
     section.details-section h3 {
-      color: #333;
-      font-weight: 700;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #007bff;
-      padding-bottom: 5px;
+      color: #333; font-weight: 700; margin-bottom: 15px;
+      border-bottom: 2px solid #007bff; padding-bottom: 5px;
     }
 
-    ul.details-list {
-      list-style: none;
-      padding-left: 0;
-      max-height: 300px;
-      overflow-y: auto;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      background: white;
-      box-shadow: inset 0 0 10px #eee;
+    table {
+      width: 100%; border-collapse: collapse; margin-top: 10px;
+    }
+    table th, table td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; font-size: 0.95rem; }
+    table th { background-color: #007bff; color: #fff; }
+    table tr:hover { background-color: #e0f0ff; }
+    table button { padding: 6px 12px; border-radius: 5px; border: none; background-color: #007bff; color: #fff; cursor: pointer; }
+    table button:hover { background-color: #0056b3; }
+
+    .details-list { list-style: none; padding-left: 0; margin-top: 10px; }
+    .details-list li { padding: 6px 10px; border-bottom: 1px solid #ddd; font-size: 0.95rem; }
+    .details-list li:last-child { border-bottom: none; }
+
+    .action-buttons a {
+      display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #007bff;
+      color: white; border-radius: 6px; text-decoration: none; transition: all 0.3s;
+    }
+    .action-buttons a:hover { background-color: #0056b3; transform: scale(1.05); }
+
+    .loader {
+      display: inline-block; width: 20px; height: 20px;
+      border: 3px solid rgba(0,0,0,.2); border-radius: 50%;
+      border-top-color: #007bff; animation: spin 1s linear infinite;
+      margin-left: 8px;
     }
 
-    ul.details-list li {
-      padding: 8px 12px;
-      border-bottom: 1px solid #eee;
-      font-size: 0.95rem;
-      color: #333;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    ul.details-list li:last-child {
-      border-bottom: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
-      color: #777;
-      background-color: #f8f8f8;
-      margin-top: 40px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #777; background-color: #f8f8f8; margin-top: 40px; }
 
     @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-      }
-      main {
-        margin: 20px 15px;
-        padding: 15px;
-      }
-      section.details-section {
-        padding: 15px 15px;
-      }
+      nav { flex-direction: column; }
+      main { margin: 20px 15px; padding: 15px; }
+      section.details-section { padding: 15px 15px; }
+      table th, table td { font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -144,7 +86,7 @@
     <nav>
       <a href="home.html">Home</a>
       <a href="track_case.html">Track Case</a>
-      <a href="case_registration.html">Register Case</a>
+      <a href="personal-details.html">Register Case</a>
       <a href="contact_us.html">Contact Us</a>
       <a href="login.html" style="background-color: crimson;">Logout</a>
     </nav>
@@ -170,14 +112,11 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="cases-list">
-            <!-- Cases will be loaded here dynamically -->
-          </tbody>
+          <tbody id="cases-list"></tbody>
         </table>
       </div>
       <div class="action-buttons">
         <a href="personal-details.html" class="btn btn-primary">Register New Case</a>
-
       </div>
     </section>
 
@@ -186,7 +125,9 @@
       <div id="case-details-container">
         <p id="select-case-message">Select a case to view details</p>
         <div id="case-details" style="display: none;">
-          <!-- Case details will be loaded here dynamically -->
+          <ul id="personal-details-list" class="details-list"></ul>
+          <ul id="crime-details-list" class="details-list"></ul>
+          <ul id="document-upload-list" class="details-list"></ul>
         </div>
       </div>
     </section>
@@ -197,80 +138,95 @@
   </footer>
 
   <script>
-    function displayCaseDetails() {
-      const caseRegistered = localStorage.getItem('caseRegistered');
-      if (caseRegistered !== 'true') {
-        // Case not registered yet, show message and clear details
-        document.getElementById('case-id').textContent = 'No case registered yet.';
+    const casesListEl = document.getElementById('cases-list');
+    const casesTable = document.getElementById('cases-table');
+    const noCases = document.getElementById('no-cases');
+    const loading = document.getElementById('loading-cases');
+    const caseDetailsDiv = document.getElementById('case-details');
+    const selectMessage = document.getElementById('select-case-message');
 
-        const personalList = document.getElementById('personal-details-list');
-        personalList.innerHTML = '<li>No case registered yet.</li>';
+    async function fetchCases() {
+      try {
+        loading.style.display = 'block';
+        const response = await fetch('/api/cases');
+        const casesData = await response.json();
+        loading.style.display = 'none';
 
-        const crimeList = document.getElementById('crime-details-list');
-        crimeList.innerHTML = '<li>No case registered yet.</li>';
-
-        const documentList = document.getElementById('document-upload-list');
-        documentList.innerHTML = '<li>No case registered yet.</li>';
-
-        return;
-      }
-
-      const caseId = localStorage.getItem('caseId');
-      const personalDetails = JSON.parse(localStorage.getItem('personalDetails'));
-      const crimeDetails = JSON.parse(localStorage.getItem('crimeDetails'));
-      const documentUpload = JSON.parse(localStorage.getItem('documentUpload'));
-
-      document.getElementById('case-id').textContent = caseId || 'N/A';
-
-      const personalList = document.getElementById('personal-details-list');
-      personalList.innerHTML = '';
-      if (personalDetails) {
-        for (const [key, value] of Object.entries(personalDetails)) {
-          const li = document.createElement('li');
-          li.textContent = `${formatKey(key)}: ${value || 'N/A'}`;
-          personalList.appendChild(li);
+        if (!casesData || casesData.length === 0) {
+          noCases.style.display = 'block';
+          casesTable.style.display = 'none';
+          return;
         }
-      } else {
-        personalList.innerHTML = '<li>No personal details available.</li>';
-      }
 
-      const crimeList = document.getElementById('crime-details-list');
-      crimeList.innerHTML = '';
-      if (crimeDetails) {
-        for (const [key, value] of Object.entries(crimeDetails)) {
-          const li = document.createElement('li');
-          li.textContent = `${formatKey(key)}: ${value || 'N/A'}`;
-          crimeList.appendChild(li);
-        }
-      } else {
-        crimeList.innerHTML = '<li>No crime details available.</li>';
-      }
+        noCases.style.display = 'none';
+        casesTable.style.display = 'table';
+        casesListEl.innerHTML = '';
 
-      const documentList = document.getElementById('document-upload-list');
-      documentList.innerHTML = '';
-      if (documentUpload) {
-        for (const [key, value] of Object.entries(documentUpload)) {
-          const li = document.createElement('li');
-          if (Array.isArray(value)) {
-            li.textContent = `${formatKey(key)}: ${value.length > 0 ? value.join(', ') : 'None'}`;
-          } else {
-            li.textContent = `${formatKey(key)}: ${value || 'N/A'}`;
-          }
-          documentList.appendChild(li);
-        }
-      } else {
-        documentList.innerHTML = '<li>No document uploads available.</li>';
+        casesData.forEach((caseItem) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${caseItem.caseNumber || 'N/A'}</td>
+            <td>${caseItem.title || 'N/A'}</td>
+            <td>${caseItem.crimeType || 'N/A'}</td>
+            <td>${caseItem.status || 'Pending'}</td>
+            <td>${caseItem.priority || 'Normal'}</td>
+            <td>${new Date(caseItem.dateReported).toLocaleDateString() || 'N/A'}</td>
+            <td><button onclick="showCaseDetails('${caseItem._id}', this)">View</button></td>
+          `;
+          casesListEl.appendChild(tr);
+        });
+      } catch (error) {
+        loading.textContent = 'Failed to load cases.';
+        console.error(error);
       }
     }
 
+    async function showCaseDetails(caseId, btn) {
+      selectMessage.style.display = 'none';
+      caseDetailsDiv.style.display = 'block';
+
+      // Add loader inside button
+      const loader = document.createElement('span');
+      loader.classList.add('loader');
+      btn.disabled = true;
+      btn.appendChild(loader);
+
+      try {
+        const response = await fetch(`/api/cases/${caseId}`);
+        const caseItem = await response.json();
+
+        populateList('personal-details-list', caseItem.personalDetails);
+        populateList('crime-details-list', caseItem.crimeDetails);
+        populateList('document-upload-list', caseItem.documentUpload);
+
+      } catch (error) {
+        console.error(error);
+      } finally {
+        btn.disabled = false;
+        loader.remove();
+      }
+    }
+
+    function populateList(listId, data) {
+      const ul = document.getElementById(listId);
+      ul.innerHTML = '';
+      if (!data || Object.keys(data).length === 0) {
+        ul.innerHTML = '<li>No data available</li>';
+        return;
+      }
+      Object.entries(data).forEach(([k,v]) => {
+        const li = document.createElement('li');
+        li.textContent = `${formatKey(k)}: ${Array.isArray(v) ? (v.length ? v.join(', ') : 'None') : v || 'N/A'}`;
+        ul.appendChild(li);
+      });
+    }
+
     function formatKey(key) {
-      // Convert camelCase or snake_case to normal words with spaces and capitalize first letter
       const result = key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ');
       return result.charAt(0).toUpperCase() + result.slice(1);
     }
 
-    window.onload = displayCaseDetails;
+    window.onload = fetchCases;
   </script>
 </body>
 </html>
-
