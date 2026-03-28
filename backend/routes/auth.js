@@ -1,8 +1,7 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
-const { getRow, runQuery } = require('../database/database');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -24,17 +23,17 @@ router.post('/register', [
     body('email').isEmail().withMessage('Please provide a valid email'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
     body('full_name').notEmpty().withMessage('Full name is required'),
+    body('dob').notEmpty().withMessage('Date of birth is required'),
     body('phone').optional().isMobilePhone().withMessage('Please provide a valid phone number'),
     validateRequest
 ], async (req, res) => {
     try {
-        const { username, email, password, full_name, phone, badge_number, department } = req.body;
+        const { username, email, password, full_name, phone, dob } = req.body;
 
         // Check if user already exists
-        const existingUser = await getRow(
-            'SELECT id FROM users WHERE username = ? OR email = ?',
-            [username, email]
-        );
+        const existingUser = await User.findOne({
+            $or: [{ username }, { email }]
+        });
 
         if (existingUser) {
             return res.status(400).json({
@@ -42,32 +41,29 @@ router.post('/register', [
             });
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Create new user
+        const newUser = new User({
+            username,
+            email,
+            password,
+            full_name,
+            phone,
+            dob: new Date(dob),
+            role: 'user'
+        });
 
-        // Insert new user
-        const result = await runQuery(
-            `INSERT INTO users (username, email, password, full_name, phone, badge_number, department, role) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [username, email, hashedPassword, full_name, phone, badge_number, department, 'user']
-        );
-
-        // Get the created user (without password)
-        const newUser = await getRow(
-            'SELECT id, username, email, full_name, role, badge_number, department, created_at FROM users WHERE id = ?',
-            [result.id]
-        );
+        await newUser.save();
 
         // Generate JWT token
         const token = jwt.sign(
-            { userId: newUser.id, username: newUser.username, role: newUser.role },
+            { userId: newUser._id, username: newUser.username, role: newUser.role },
             JWT_SECRET,
             { expiresIn: '24h' }
         );
 
         res.status(201).json({
             message: 'User registered successfully',
-            user: newUser,
+            user: newUser.toJSON(),
             token
         });
 
@@ -87,34 +83,30 @@ router.post('/login', [
         const { username, password } = req.body;
 
         // Find user by username or email
-        const user = await getRow(
-            'SELECT * FROM users WHERE username = ? OR email = ?',
-            [username, username]
-        );
+        const user = await User.findOne({
+            $or: [{ username }, { email: username }]
+        });
 
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Check password
-        const isValidPassword = await bcrypt.compare(password, user.password);
+        const isValidPassword = await user.comparePassword(password);
         if (!isValidPassword) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Generate JWT token
         const token = jwt.sign(
-            { userId: user.id, username: user.username, role: user.role },
+            { userId: user._id, username: user.username, role: user.role },
             JWT_SECRET,
             { expiresIn: '24h' }
         );
 
-        // Remove password from response
-        const { password: _, ...userWithoutPassword } = user;
-
         res.json({
             message: 'Login successful',
-            user: userWithoutPassword,
+            user: user.toJSON(),
             token
         });
 
@@ -139,12 +131,6 @@ router.post('/forgot-password', [
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // In a real application, you would:
-        // 1. Generate a password reset token
-        // 2. Send an email with the reset link
-        // 3. Store the token in the database with expiration
-
-        // For now, we'll just return a success message
         res.json({
             message: 'If an account with this email exists, a password reset link has been sent'
         });
@@ -164,12 +150,8 @@ router.post('/reset-password', [
     try {
         const { token, new_password } = req.body;
 
-        // In a real application, you would:
-        // 1. Verify the reset token
-        // 2. Check if it's expired
-        // 3. Update the password
+        // (Future implementation for reset)
 
-        // For now, we'll return a success message
         res.json({
             message: 'Password reset successfully'
         });
@@ -201,7 +183,7 @@ const verifyToken = (req, res, next) => {
 router.get('/profile', verifyToken, async (req, res) => {
     try {
         const user = await getRow(
-            'SELECT id, username, email, full_name, phone, role, badge_number, department, created_at FROM users WHERE id = ?',
+            'SELECT id, username, email, full_name, phone, role, dob, created_at FROM users WHERE id = ?',
             [req.user.userId]
         );
 
@@ -222,14 +204,15 @@ router.put('/profile', [
     verifyToken,
     body('full_name').optional().notEmpty().withMessage('Full name cannot be empty'),
     body('phone').optional().isMobilePhone().withMessage('Please provide a valid phone number'),
+    body('dob').optional().notEmpty().withMessage('Date of birth cannot be empty'),
     validateRequest
 ], async (req, res) => {
     try {
-        const { full_name, phone } = req.body;
+        const { full_name, phone, dob } = req.body;
 
         const result = await runQuery(
-            'UPDATE users SET full_name = ?, phone = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
-            [full_name, phone, req.user.userId]
+            'UPDATE users SET full_name = ?, phone = ?, dob = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+            [full_name, phone, dob, req.user.userId]
         );
 
         if (result.changes === 0) {
@@ -238,7 +221,7 @@ router.put('/profile', [
 
         // Get updated user
         const user = await getRow(
-            'SELECT id, username, email, full_name, phone, role, badge_number, department, created_at FROM users WHERE id = ?',
+            'SELECT id, username, email, full_name, phone, role, dob, created_at FROM users WHERE id = ?',
             [req.user.userId]
         );
 
