@@ -7,6 +7,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Theme Variables */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+      --card-bg: #171717;
+      --text-color: #ffffff;
+      --input-bg: #171717;
+      --input-shadow: inset 2px 5px 10px rgb(5 5 5);
+      --link-color: #00ff75;
+    }
+
+    body.light-mode {
+      --bg-gradient: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      --card-bg: #ffffff;
+      --text-color: #000000;
+      --input-bg: #f1f1f1;
+      --input-shadow: inset 2px 5px 10px rgba(0,0,0,0.1);
+      --link-color: #007bff;
+    }
+
     /* Reset */
     * {
       margin: 0;
@@ -16,7 +35,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--bg-gradient);
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -24,6 +43,8 @@
       padding: 2rem;
       position: relative;
       overflow: hidden;
+      color: var(--text-color);
+      transition: background 0.5s ease, color 0.5s ease;
     }
 
     /* Background Animation */
@@ -33,8 +54,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
-      z-index: 1;
+      z-index: 0;
     }
 
     .bg-animation::before {
@@ -44,7 +64,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
       animation: rotate 20s linear infinite;
     }
 
@@ -58,7 +78,7 @@
       position: absolute;
       top: 2rem;
       left: 2rem;
-      z-index: 10;
+      z-index: 100;
     }
 
     .logo {
@@ -67,61 +87,135 @@
       gap: 0.5rem;
       font-size: 1.5rem;
       font-weight: 700;
-      color: white;
+      color: var(--text-color);
       text-decoration: none;
+      transition: all 0.4s ease-in-out;
     }
 
     .logo i {
       font-size: 1.8rem;
       color: #ffdd57;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .logo:hover i {
+      transform: rotate(15deg) scale(1.15);
+      color: #00ff75;
+      text-shadow: 0 0 10px #00ff75, 0 0 20px #3700ff;
+    }
+
+    /* Theme Toggle */
+    #mode-toggle {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--text-color);
+      z-index: 100;
+      transition: color 0.4s ease;
     }
 
     /* Navigation Menu */
     .nav-menu {
       position: absolute;
       top: 2rem;
-      right: 2rem;
-      z-index: 10;
+      right: 5rem;
+      z-index: 100; /* above cards and background */
+      display: flex;
+      gap: 0.8rem;
+      background: rgba(0,0,0,0.95); /* solid dark background */
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,255,117,0.6);
     }
 
     .nav-menu a {
-      color: white;
+      position: relative; /* needed for hover pseudo-element */
+      color: #fff;
       text-decoration: none;
       font-weight: 500;
       padding: 0.5rem 1rem;
       border-radius: 8px;
       transition: all 0.3s ease;
-      margin-left: 1rem;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+    }
+
+    .nav-menu a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(120deg, #00ff75, #3700ff, #00ff75);
+      background-size: 200% 200%;
+      z-index: -1; /* behind text */
+      filter: blur(8px);
+      transition: all 0.5s ease;
+    }
+
+    .nav-menu a:hover::before {
+      left: 0;
+      animation: moveGradient 3s linear infinite;
     }
 
     .nav-menu a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 255, 117, 0.4);
+    }
+
+    @keyframes moveGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     @media (max-width: 768px) {
-      .nav-menu {
-        display: none;
-      }
+      .nav-menu { display: none; }
     }
 
     /* Card styles */
     .card {
       background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
       border-radius: 22px;
-      transition: all 0.3s;
+      transition: all 0.4s ease;
       padding: 0.5rem;
-      box-sizing: border-box;
       z-index: 5;
-      /* To position above bg animation */
       box-shadow: 0 0 30px 1px rgba(0, 255, 117, 0.3);
+      position: relative;
+      overflow: visible;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, #00ff75, #3700ff, #00ff75);
+      filter: blur(40px);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .card:hover::before {
+      opacity: 0.6;
+      animation: glowGradient 4s linear infinite;
+    }
+
+    @keyframes glowGradient {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .card2 {
       border-radius: 0;
-      transition: all 0.2s;
+      transition: transform 0.3s ease, border-radius 0.3s ease;
       background: transparent;
     }
 
@@ -130,14 +224,9 @@
       border-radius: 20px;
     }
 
-    .card:hover {
-      box-shadow: 0 0 30px 6px rgba(0, 255, 117, 0.5);
-    }
-
-    /* Login Container - dark style inside card */
+    /* Login Container */
     .login-container {
-      background-color: #171717 !important;
-      backdrop-filter: none !important;
+      background-color: var(--card-bg) !important;
       box-shadow: inset 2px 5px 10px rgb(5 5 5 / 0.9) !important;
       padding: 2rem !important;
       width: 100%;
@@ -145,84 +234,51 @@
       border-radius: 20px;
       position: relative;
       z-index: 10;
-      color: white !important;
       animation: slideUp 0.6s ease-out;
+      transition: all 0.4s ease;
     }
 
     @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .login-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .login-header h1,
-    .login-header p {
-      color: white !important;
-    }
+    .login-header { text-align: center; margin-bottom: 2rem; }
+    .login-header h1, .login-header p { color: var(--text-color) !important; }
 
     /* Form Styles */
-    .form-group {
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-
+    .form-group { margin-bottom: 1.5rem; position: relative; }
     .form-group label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
-      color: white !important;
+      color: var(--text-color);
       font-size: 0.9rem;
     }
-
-    .input-wrapper {
-      position: relative;
-    }
-
+    .input-wrapper { position: relative; }
     .form-group input {
       width: 100%;
       padding: 1rem 1rem 1rem 2.5rem;
-      border: none !important;
+      border: none;
       border-radius: 12px;
       font-size: 1rem;
-      transition: all 0.3s ease;
-      background: #171717 !important;
-      color: white !important;
-      box-shadow: inset 2px 5px 10px rgb(5 5 5);
+      background: var(--input-bg);
+      color: var(--text-color);
+      box-shadow: var(--input-shadow);
+      transition: all 0.4s ease;
     }
-
-    .form-group input::placeholder {
-      color: #777;
-    }
-
     .form-group input:focus {
       outline: none;
-      box-shadow: inset 2px 5px 15px rgba(0, 255, 117, 0.6);
-      background: #1c1c1c !important;
+      box-shadow: 0 0 10px #00ff75, inset 2px 5px 15px rgba(0, 255, 117, 0.6);
+      background: #1c1c1c;
     }
-
     .input-icon {
       position: absolute;
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      color: white !important;
-      transition: color 0.3s ease;
+      color: var(--text-color);
     }
-
-    .form-group input:focus + .input-icon {
-      color: #00ff75 !important;
-    }
-
     .password-toggle {
       position: absolute;
       right: 1rem;
@@ -230,195 +286,48 @@
       transform: translateY(-50%);
       background: none;
       border: none;
-      color: #ccc !important;
       cursor: pointer;
       font-size: 1.1rem;
+      color: #ccc;
       transition: color 0.3s ease;
     }
-
-    .password-toggle:hover {
-      color: #00ff75 !important;
-    }
+    .password-toggle:hover { color: #00ff75; }
 
     /* Error Messages */
-    .error-message {
-      color: #ff5252 !important;
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-      display: none;
-      animation: shake 0.5s ease-in-out;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
-    /* Remember Me */
-    .remember-me {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .remember-me input[type="checkbox"] {
-      width: auto;
-      margin: 0;
-    }
-
-    .remember-me label {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #ccc !important;
-    }
+    .error-message { color: #ff5252; font-size: 0.85rem; margin-top: 0.5rem; display: none; transition: all 0.3s ease; }
 
     /* Buttons */
-    .btn {
-      width: 100%;
-      padding: 0.6em 1.5em;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      box-shadow: none !important;
+    .btn { width: 100%; padding: 0.6em 1.5em; border: none; border-radius: 5px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.4s ease; }
+    .btn-primary { background-color: #252525; color: white; }
+    .btn-primary:hover { 
+      background: linear-gradient(135deg, #00ff75, #3700ff, #00ff75);
+      box-shadow: 0 6px 20px rgba(0, 255, 117, 0.5), 0 0 15px rgba(55, 0, 255, 0.3);
+      transform: translateY(-2px) scale(1.05);
     }
-
-    .btn-primary {
-      background-color: #252525 !important;
-      color: white !important;
-    }
-
-    .btn-primary:hover {
-      background-color: black !important;
-      color: white !important;
-      transform: none !important;
-      box-shadow: none !important;
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    .btn-secondary {
-      background-color: #252525 !important;
-      color: white !important;
-      margin-top: 1rem;
-    }
-
-    .btn-secondary:hover {
-      background-color: black !important;
-      color: white !important;
-      transform: none !important;
-      box-shadow: none !important;
+    .btn-secondary { background-color: #252525; color: white; margin-top: 1rem; }
+    .btn-secondary:hover { 
+      background: linear-gradient(135deg, #00ff75, #3700ff, #00ff75);
+      box-shadow: 0 6px 20px rgba(0, 255, 117, 0.5), 0 0 15px rgba(55, 0, 255, 0.3);
+      transform: translateY(-2px) scale(1.05);
     }
 
     /* Success Message */
-    .success-message {
-      background: linear-gradient(135deg, #28a745, #20c997);
-      color: white;
-      padding: 1rem;
-      border-radius: 12px;
-      text-align: center;
-      margin-bottom: 1.5rem;
-      display: none;
-      animation: slideDown 0.3s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    .success-message { background: linear-gradient(135deg, #28a745, #20c997); color: white; padding: 1rem; border-radius: 12px; text-align: center; margin-bottom: 1.5rem; display: none; transition: all 0.3s ease; }
 
     /* Links */
-    .links {
-      text-align: center;
-      margin-top: 2rem;
-    }
+    .links { text-align: center; margin-top: 2rem; }
+    .links a { color: var(--link-color); text-decoration: none; font-weight: 500; transition: all 0.4s ease-in-out; }
+    .links a:hover { color: #00ff75; text-decoration: underline; text-shadow: 0 0 10px #00ff75, 0 0 20px #3700ff; transform: scale(1.05); }
+    .links p { margin-bottom: 0.5rem; color: #ccc; }
 
-    .links a {
-      color: #00ff75 !important;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .links a:hover {
-      color: #3700ff !important;
-    }
-
-    .links p {
-      margin-bottom: 0.5rem;
-      color: #ccc !important;
-    }
-
-    /* Divider */
-    .divider {
-      display: flex;
-      align-items: center;
-      margin: 1.5rem 0;
-      color: #999;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #333;
-    }
-
-    .divider span {
-      padding: 0 1rem;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .login-container {
-        padding: 1.5rem !important;
-        margin: 1rem;
-      }
-
-      .login-header h1 {
-        font-size: 1.5rem;
-      }
-
-      .header {
-        top: 1rem;
-        left: 1rem;
-      }
-    }
+    /* Divider *
+    .divider { display: flex; align-items: center; margin: 1.5rem 0; color: #999; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #333; }
+    .divider span { padding: 0 1rem; font-size: 0.9rem; color: #ccc; }
 
     /* Loading Animation */
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -439,6 +348,9 @@
     <a href="registration.html">Register</a>
     <a href="contact_us.html">Contact</a>
   </div>
+
+  <!-- Mode Toggle Button -->
+  <button id="mode-toggle"><i id="mode-icon" class="fas fa-moon"></i></button>
 
   <!-- Card Wrapping Login Container -->
   <div class="card">
@@ -487,9 +399,7 @@
             Sign In
           </button>
 
-          <div class="divider">
-            <span>or</span>
-          </div>
+          <div class="divider"><span>or</span></div>
 
           <button type="button" class="btn btn-secondary" onclick="alert('OTP feature coming soon!')">
             <i class="fas fa-mobile-alt"></i>
@@ -506,34 +416,35 @@
   </div>
 
 <script>
-  // Password toggle function
+  // Password toggle
   function togglePassword() {
     const passwordInput = document.getElementById('password');
     const toggleIcon = document.getElementById('toggle-icon');
     if (passwordInput.type === 'password') {
       passwordInput.type = 'text';
-      toggleIcon.classList.remove('fa-eye');
-      toggleIcon.classList.add('fa-eye-slash');
+      toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
     } else {
       passwordInput.type = 'password';
-      toggleIcon.classList.remove('fa-eye-slash');
-      toggleIcon.classList.add('fa-eye');
+      toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
     }
   }
 
-  // Simple form validation & success message simulation
-  function handleLogin(event) {
+  // Login function with API call
+  async function handleLogin(event) {
     event.preventDefault();
-
-    // Clear previous errors
-    const usernameError = document.getElementById('username-error');
-    const passwordError = document.getElementById('password-error');
-    usernameError.style.display = 'none';
-    passwordError.style.display = 'none';
-
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
     let valid = true;
+
+    const usernameError = document.getElementById('username-error');
+    const passwordError = document.getElementById('password-error');
+    const apiError = document.getElementById('api-error');
+    const successMessage = document.getElementById('success-message');
+
+    usernameError.style.display = 'none';
+    passwordError.style.display = 'none';
+    apiError.style.display = 'none';
+    successMessage.style.display = 'none';
 
     if (username.length < 3) {
       usernameError.textContent = 'Please enter a valid username or email.';
@@ -546,36 +457,85 @@
       valid = false;
     }
 
-    if (!valid) {
-      return false;
-    }
+    if (!valid) return false;
 
-    // Disable button and show loading
     const loginBtn = document.getElementById('login-btn');
     loginBtn.disabled = true;
     loginBtn.innerHTML = '<span class="loading"></span> Signing in...';
 
-    // Simulate server login delay
-    setTimeout(() => {
-      // Show success message
-      const successMessage = document.getElementById('success-message');
-      successMessage.style.display = 'block';
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
 
-      // Reset form button
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store token and user data
+        localStorage.setItem('polis_token', data.token);
+        localStorage.setItem('currentUser', JSON.stringify(data.user));
+
+        successMessage.style.display = 'block';
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+
+        // Redirect based on user role
+        setTimeout(() => {
+          if (data.user.role === 'admin') {
+            window.location.href = 'admin-dashboard.html';
+          } else {
+            window.location.href = 'dashboard.html';
+          }
+        }, 2000);
+      } else {
+        apiError.textContent = data.error || 'Login failed. Please try again.';
+        apiError.style.display = 'block';
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      apiError.textContent = 'Server error. Please try again later.';
+      apiError.style.display = 'block';
       loginBtn.disabled = false;
       loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
-
-      // Clear form (optional)
-      // document.getElementById('login-form').reset();
-
-      // Redirect after 2 seconds
-      setTimeout(() => {
-        window.location.href = 'dashboard.html'; // Change to your dashboard page
-      }, 2000);
-    }, 1500);
-
-    return false;
+    }
   }
+
+  // Theme toggle
+  const body = document.body;
+  const modeToggle = document.getElementById('mode-toggle');
+  const modeIcon = document.getElementById('mode-icon');
+
+  function setMode(isLight) {
+    if (isLight) {
+      body.classList.add('light-mode');
+      modeIcon.classList.replace('fa-moon', 'fa-sun');
+      modeIcon.style.color = "#ffcc00";
+      localStorage.setItem('theme', 'light');
+    } else {
+      body.classList.remove('light-mode');
+      modeIcon.classList.replace('fa-sun', 'fa-moon');
+      modeIcon.style.color = "var(--text-color)";
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  modeToggle.addEventListener('click', () => {
+    const isLight = !body.classList.contains('light-mode');
+    setMode(isLight);
+  });
+
+  // Load saved theme
+  window.onload = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') setMode(true);
+    else setMode(false);
+  };
 </script>
 </body>
 </html>
