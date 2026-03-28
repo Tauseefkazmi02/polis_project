@@ -5,7 +5,7 @@ const path = require('path');
 require('dotenv').config({ path: './config.env' });
 
 // Import database connection
-const db = require('./database/database');
+const { connectDB, createDefaultAdmin } = require('./database/database');
 
 // Import route modules
 const authRoutes = require('./routes/auth');
@@ -15,6 +15,11 @@ const adminRoutes = require('./routes/admin');
 const documentRoutes = require('./routes/documents');
 
 const app = express();
+
+// Connect to MongoDB and create default admin
+connectDB().then(() => {
+    createDefaultAdmin();
+});
 
 // Middleware
 app.use(helmet());
